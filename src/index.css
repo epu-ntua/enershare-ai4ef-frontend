@@ -11,3 +11,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Layout */
+.menuItemActive {
+  background: linear-gradient(45deg, #f4f4f4 10%, #f4f4f4 90%);
+}
+
+/* Homepage */
+.serviceItemTitle:hover {
+  font-weight: 500;
+}
+
+/* Homepage */
+.serviceCategoryDescriptionOdd {
+  background: linear-gradient(to right, #1DE0B3, #5BA3D9);
+}
+
+.serviceCategoryDescriptionEven {
+  background: linear-gradient(to right, #5BA3D9, #9966ff);
+}
+
+.homepageServiceImage {
+  overflow: hidden !important;
+}
+
+.homepageServiceImage:hover {
+  opacity: 0.9 !important;
+  transform: scale(1.05) rotateY(0deg) rotate(1deg) !important;
+  overflow: hidden !important;
+  transition: linear 200ms;
+}
