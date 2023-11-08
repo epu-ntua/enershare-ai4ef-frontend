@@ -22,6 +22,8 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DoneIcon from '@mui/icons-material/Done';
 import ClearIcon from '@mui/icons-material/Clear';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import Loading from "../components/layout/Loading";
 
@@ -86,6 +88,10 @@ function InvestmentPlanning() {
         const {name, value} = event.target;
         setFormData({...formData, [name]: value});
     };
+
+    const handleReset = () => {
+        setFormData(initialFormState)
+    }
 
     const handleSave = () => {
         // Check if all fields are filled before executing the save function
@@ -268,11 +274,21 @@ function InvestmentPlanning() {
                     </Grid>
                     <Grid container justifyContent="flex-end" mt={3} mb={1}>
                         <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={handleReset}
+                            sx={{borderColor: '#9966ff', color: '#9966ff', mx: 2}}
+                        >
+                            <RestartAltIcon/>
+                            RESET
+                        </Button>
+                        <Button
                             variant="contained"
                             color="primary"
                             onClick={handleSave}
                             sx={{backgroundColor: '#9966ff', borderColor: '#9966ff', color: 'white'}}
                         >
+                            <InfoOutlinedIcon sx={{mr: '4px'}}/>
                             CALCULATE
                         </Button>
                     </Grid>
