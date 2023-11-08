@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import { useTheme } from '@mui/material/styles';
+
 import {
     Container,
     Accordion,
@@ -12,10 +14,59 @@ import {
     InputLabel,
     Select,
     MenuItem,
+    Card,
+    Box,
+    IconButton,
 } from '@mui/material';
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DoneIcon from '@mui/icons-material/Done';
+import ClearIcon from '@mui/icons-material/Clear';
+
+import Loading from "../components/layout/Loading";
+
+const recommendationsTemp = [
+    {
+        "title": "Carrying out construction works",
+        "description": "Carrying out construction works in the enclosing structures during the project (to increase the energy efficiency of the house)",
+        "type": "int",
+        "unit": "-",
+        "minimum": "0",
+        "maximum": "1",
+        "id": "1"
+    },
+    {
+        "title": "Reconstruction of engineering systems",
+        "description": "Reconstruction of engineering systems (ventilation, recuperation) to increase the energy efficiency of the house (during the project)",
+        "type": "int",
+        "unit": "-",
+        "minimum": "0",
+        "maximum": "2",
+        "id": "2"
+    },
+    {
+        "title": "Water heating system",
+        "description": "Installation of a new water heating system (during the project)",
+        "type": "int",
+        "unit": "-",
+        "minimum": "0",
+        "maximum": "3",
+        "id": "3"
+    },
+    {
+        "title": "Heat installation",
+        "description": "Installation of heat installations to ensure the production of heat from renewable energy sources",
+        "type": "int",
+        "unit": "-",
+        "minimum": "0",
+        "maximum": "4",
+        "id": "4"
+    }
+];
 
 function InvestmentPlanning() {
+    const theme = useTheme();
+
     const initialFormState = {
         BuildingTotalArea: '',
         UndergroundFloor: '',
@@ -28,6 +79,8 @@ function InvestmentPlanning() {
 
     const [formData, setFormData] = useState(initialFormState);
     const [accordionOpen, setAccordionOpen] = useState(true); // Set the Accordion to be expanded by default
+    const [loading, setLoading] = useState(false)
+    const [recommendations, setRecommendations] = useState([])
 
     const handleFormChange = (event) => {
         const {name, value} = event.target;
@@ -36,12 +89,24 @@ function InvestmentPlanning() {
 
     const handleSave = () => {
         // Check if all fields are filled before executing the save function
-        const isFormValid = Object.values(formData).every((value) => value.trim() !== '');
+        const isFormValid = Object.values(formData).every((value) => {
+            if (typeof value === 'string') {
+                return value.trim() !== '';
+            }
+            return true; // Treat non-strings as valid
+        });
+
         if (isFormValid) {
+            setLoading(true)
+
             // Your save logic here
             console.log('Form saved:', formData);
+            setTimeout(() => {
+                setRecommendations([...recommendationsTemp])
+                setLoading(false)
+            }, 2000)
         }
-    };
+    }
 
     return (
         <Container maxWidth="xl" sx={{my: 3}}>
@@ -113,8 +178,8 @@ function InvestmentPlanning() {
                                     onChange={handleFormChange}
                                     required
                                 >
-                                    <MenuItem value="Yes">Yes</MenuItem>
-                                    <MenuItem value="No">No</MenuItem>
+                                    <MenuItem value={1}>Yes</MenuItem>
+                                    <MenuItem value={0}>No</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -196,13 +261,67 @@ function InvestmentPlanning() {
                             variant="contained"
                             color="primary"
                             onClick={handleSave}
-                            sx={{ backgroundColor: '#9966ff', borderColor: '#9966ff', color: 'white' }}
+                            sx={{backgroundColor: '#9966ff', borderColor: '#9966ff', color: 'white'}}
                         >
                             CALCULATE
                         </Button>
                     </Grid>
                 </AccordionDetails>
             </Accordion>
+
+            {loading && <Loading/>}
+
+            {!loading && recommendations.length > 0 && <Grid container spacing={2} my={5}>
+                {recommendations.map((recommendation) => (
+                    <Grid item key={recommendation.id} xs={12} md={3}>
+                        <Card sx={{
+                            backgroundColor: 'white',
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between'
+                        }}>
+                            <div style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
+                                <Typography variant="h5" align={'center'} component="div" fontWeight={'bold'}
+                                            sx={{marginTop: 0, alignSelf: 'flex-start', padding: '8px', mx: 'auto', color: theme.palette.primary.main}}>
+                                    {recommendation.title}
+                                </Typography>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <img
+                                        src={`/images/id${recommendation.id}.jpg`}
+                                        alt={recommendation.title}
+                                        style={{marginTop: '20px', maxHeight: '140px', width: 'auto'}}
+                                    />
+                                    <Typography variant="body2" color="text.secondary" sx={{p: 2}}>
+                                        {recommendation.description}
+                                    </Typography>
+                                </div>
+                            </div>
+                            <Box sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                                marginBottom: '8px'
+                            }}>
+                                <div style={{display: 'flex', justifyContent: 'center'}}>
+                                    <IconButton sx={{color: 'green'}}>
+                                        <DoneIcon sx={{fontSize: 56}}/>
+                                    </IconButton>
+                                    <IconButton sx={{color: 'red'}}>
+                                        <ClearIcon sx={{fontSize: 56}}/>
+                                    </IconButton>
+                                </div>
+                            </Box>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>}
+
         </Container>
     );
 }
