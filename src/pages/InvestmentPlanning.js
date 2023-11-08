@@ -236,7 +236,12 @@ function InvestmentPlanning() {
                                     required
                                 >
                                     <MenuItem value="A+">A+</MenuItem>
-                                    {/* Add other options here */}
+                                    <MenuItem value="A">A</MenuItem>
+                                    <MenuItem value="B">B</MenuItem>
+                                    <MenuItem value="C">C</MenuItem>
+                                    <MenuItem value="D">D</MenuItem>
+                                    <MenuItem value="E">E</MenuItem>
+                                    <MenuItem value="F">F</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -251,7 +256,12 @@ function InvestmentPlanning() {
                                     required
                                 >
                                     <MenuItem value="A+">A+</MenuItem>
-                                    {/* Add other options here */}
+                                    <MenuItem value="A">A</MenuItem>
+                                    <MenuItem value="B">B</MenuItem>
+                                    <MenuItem value="C">C</MenuItem>
+                                    <MenuItem value="D">D</MenuItem>
+                                    <MenuItem value="E">E</MenuItem>
+                                    <MenuItem value="F">F</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -273,7 +283,11 @@ function InvestmentPlanning() {
 
             {!loading && recommendations.length > 0 &&
                 <>
-                    <Typography variant={'h4'} sx={{color: theme.palette.primary.main, mt: 5, borderBottom: '1px solid #9966ff'}}>Recommendations</Typography>
+                    <Typography variant={'h4'} sx={{
+                        color: theme.palette.primary.main,
+                        mt: 5,
+                        borderBottom: '1px solid #9966ff'
+                    }}>Recommendations</Typography>
                     <Grid container spacing={2} my={1}>
                         {recommendations.map((recommendation) => (
                             <Grid item key={recommendation.id} xs={12} md={3}>
