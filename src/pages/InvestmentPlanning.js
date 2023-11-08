@@ -165,7 +165,7 @@ function InvestmentPlanning() {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 name="BuildingTotalArea"
-                                label="Building Total Area"
+                                label="Building Total Area (&#13217;)"
                                 fullWidth
                                 value={formData.BuildingTotalArea}
                                 onChange={handleFormChange}
@@ -192,7 +192,7 @@ function InvestmentPlanning() {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 name="ReferenceArea"
-                                label="Reference Area"
+                                label="Reference Area (&#13217;)"
                                 fullWidth
                                 value={formData.ReferenceArea}
                                 onChange={handleFormChange}
@@ -206,7 +206,7 @@ function InvestmentPlanning() {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 name="EnergyConsumptionBefore"
-                                label="Energy Consumption before"
+                                label="Energy Consumption before (kWh)"
                                 fullWidth
                                 value={formData.EnergyConsumptionBefore}
                                 onChange={handleFormChange}
