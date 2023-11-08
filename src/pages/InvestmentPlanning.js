@@ -286,6 +286,7 @@ function InvestmentPlanning() {
                     <Typography variant={'h4'} sx={{
                         color: theme.palette.primary.main,
                         mt: 5,
+                        fontWeight: 'bold',
                         borderBottom: '1px solid #9966ff'
                     }}>Recommendations</Typography>
                     <Grid container spacing={2} my={1}>
