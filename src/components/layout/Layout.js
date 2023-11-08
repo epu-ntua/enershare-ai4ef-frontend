@@ -107,11 +107,11 @@ export default function Layout({children}) {
     };
 
     const menuItems = [
-        {text: 'Homepage', icon: <HomeOutlinedIcon color="secondary"/>, path: "/",},
-        {text: 'Investment Planning', icon: <EnergySavingsLeafIcon color="secondary"/>, path: "/investment-planning",},
+        {text: 'Homepage', icon: <HomeOutlinedIcon color="primary"/>, path: "/",},
+        {text: 'Investment Planning', icon: <EnergySavingsLeafIcon color="primary"/>, path: "/investment-planning",},
         {
             text: 'Photovoltaic Installation',
-            icon: <SolarPowerIcon color="secondary"/>,
+            icon: <SolarPowerIcon color="primary"/>,
             path: "/photovoltaic-installation",
         },
     ]
@@ -141,6 +141,7 @@ export default function Layout({children}) {
                 <Drawer
                     sx={{
                         width: drawerWidth,
+                        background: '#fafafa',
                         flexShrink: 0,
                         '& .MuiDrawer-paper': {
                             width: drawerWidth,
@@ -173,7 +174,7 @@ export default function Layout({children}) {
                                               borderRadius: '10px', margin: 1, width: '95%'
                                           }}>
                                     <ListItemButton>
-                                        <ListItemIcon>
+                                        <ListItemIcon className={'menuIcon'}>
                                             {item.icon}
                                         </ListItemIcon>
                                         <ListItemText sx={{color: location.pathname === item.path ? 'white' : ''}} primary={item.text}/>
@@ -184,7 +185,7 @@ export default function Layout({children}) {
                     </List>
                     <Divider/>
                 </Drawer>
-                <Box component="main" sx={{flexGrow: 1}}>
+                <Box component="main" sx={{flexGrow: 1, background: '#fafafa'}}>
                     <Main open={open}>
                         <DrawerHeader/>
                         {children}

@@ -21,10 +21,10 @@ let purple_primary = '#9966ff';
 const theme = createTheme({
     palette: {
         primary: {
-            main: green_primary,
+            main: purple_primary,
         },
         secondary: {
-            main: purple_primary,
+            main: green_primary,
         },
         barBackground: {
             main: `linear-gradient(to right, ${green_primary}, ${purple_primary})`,
