@@ -17,12 +17,21 @@ code {
   background: linear-gradient(45deg, #f4f4f4 10%, #f4f4f4 90%);
 }
 
+.breadcrumbLink {
+  text-decoration: none;
+  font-size: 20px;
+  color: inherit;
+}
+
+.breadcrumbLink:hover {
+  text-decoration: underline !important;
+}
+
 /* Homepage */
 .serviceItemTitle:hover {
   font-weight: 500;
 }
 
-/* Homepage */
 .serviceCategoryDescriptionOdd {
   background: linear-gradient(to right, #1DE0B3, #5BA3D9);
 }
