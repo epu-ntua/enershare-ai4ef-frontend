@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useTheme } from '@mui/material/styles';
+import {useTheme} from '@mui/material/styles';
 
 import {
     Container,
@@ -271,56 +271,67 @@ function InvestmentPlanning() {
 
             {loading && <Loading/>}
 
-            {!loading && recommendations.length > 0 && <Grid container spacing={2} my={5}>
-                {recommendations.map((recommendation) => (
-                    <Grid item key={recommendation.id} xs={12} md={3}>
-                        <Card sx={{
-                            backgroundColor: 'white',
-                            height: '100%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between'
-                        }}>
-                            <div style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
-                                <Typography variant="h5" align={'center'} component="div" fontWeight={'bold'}
-                                            sx={{marginTop: 0, alignSelf: 'flex-start', padding: '8px', mx: 'auto', color: theme.palette.primary.main}}>
-                                    {recommendation.title}
-                                </Typography>
-                                <div style={{
+            {!loading && recommendations.length > 0 &&
+                <>
+                    <Typography variant={'h4'} sx={{color: theme.palette.primary.main, mt: 5, borderBottom: '1px solid #9966ff'}}>Recommendations</Typography>
+                    <Grid container spacing={2} my={1}>
+                        {recommendations.map((recommendation) => (
+                            <Grid item key={recommendation.id} xs={12} md={3}>
+                                <Card sx={{
+                                    backgroundColor: 'white',
+                                    height: '100%',
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
+                                    justifyContent: 'space-between'
                                 }}>
-                                    <img
-                                        src={`/images/id${recommendation.id}.jpg`}
-                                        alt={recommendation.title}
-                                        style={{marginTop: '20px', maxHeight: '140px', width: 'auto'}}
-                                    />
-                                    <Typography variant="body2" color="text.secondary" sx={{p: 2}}>
-                                        {recommendation.description}
-                                    </Typography>
-                                </div>
-                            </div>
-                            <Box sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                flexDirection: 'column',
-                                marginBottom: '8px'
-                            }}>
-                                <div style={{display: 'flex', justifyContent: 'center'}}>
-                                    <IconButton sx={{color: 'green'}}>
-                                        <DoneIcon sx={{fontSize: 56}}/>
-                                    </IconButton>
-                                    <IconButton sx={{color: 'red'}}>
-                                        <ClearIcon sx={{fontSize: 56}}/>
-                                    </IconButton>
-                                </div>
-                            </Box>
-                        </Card>
+                                    <div style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
+                                        <Typography variant="h6" align={'center'} component="div" fontWeight={'bold'}
+                                                    sx={{
+                                                        marginTop: 0,
+                                                        alignSelf: 'flex-start',
+                                                        padding: '8px',
+                                                        mx: 'auto',
+                                                        color: theme.palette.primary.main
+                                                    }}>
+                                            {recommendation.title}
+                                        </Typography>
+                                        <div style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}>
+                                            <img
+                                                src={`/images/id${recommendation.id}.jpg`}
+                                                alt={recommendation.title}
+                                                style={{marginTop: '20px', maxHeight: '140px', width: 'auto'}}
+                                            />
+                                            <Typography variant="body2" color="text.secondary" sx={{p: 2}}>
+                                                {recommendation.description}
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                    <Box sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        flexDirection: 'column',
+                                        marginBottom: '8px'
+                                    }}>
+                                        <div style={{display: 'flex', justifyContent: 'center'}}>
+                                            <IconButton sx={{color: 'green'}}>
+                                                <DoneIcon sx={{fontSize: 56}}/>
+                                            </IconButton>
+                                            <IconButton sx={{color: 'red'}}>
+                                                <ClearIcon sx={{fontSize: 56}}/>
+                                            </IconButton>
+                                        </div>
+                                    </Box>
+                                </Card>
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
-            </Grid>}
+                </>
+            }
 
         </Container>
     );
