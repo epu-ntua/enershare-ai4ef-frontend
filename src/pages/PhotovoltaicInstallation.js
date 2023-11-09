@@ -20,6 +20,8 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import Breadcrumb from '../components/layout/Breadcrumb';
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const breadcrumbs = [
     <Link className={'breadcrumbLink'} key="1" to="/">
@@ -248,6 +250,7 @@ function PhotovoltaicInstallation() {
                                 onClick={handleReset}
                                 sx={{ borderColor: '#9966ff', color: '#9966ff', mx: 2 }}
                             >
+                                <RestartAltIcon/>
                                 RESET
                             </Button>
                             <Button
@@ -260,6 +263,7 @@ function PhotovoltaicInstallation() {
                                     color: 'white',
                                 }}
                             >
+                                <InfoOutlinedIcon sx={{mr: '4px'}}/>
                                 CALCULATE
                             </Button>
                         </Grid>
