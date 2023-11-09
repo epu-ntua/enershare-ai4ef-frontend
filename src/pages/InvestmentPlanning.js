@@ -112,9 +112,9 @@ function InvestmentPlanning() {
     const [recommendations, setRecommendations] = useState([]);
 
     const handleFormChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
-        setFormErrors({ ...formErrors, [name]: false });
+        const {name, value} = event.target;
+        setFormData({...formData, [name]: value});
+        setFormErrors({...formErrors, [name]: false});
     };
 
     const handleReset = () => {
@@ -152,8 +152,8 @@ function InvestmentPlanning() {
 
     return (
         <>
-            <Breadcrumb breadcrumbs={breadcrumbs} welcome_msg={''} />
-            <Container maxWidth="xl" sx={{ my: 3 }}>
+            <Breadcrumb breadcrumbs={breadcrumbs} welcome_msg={''}/>
+            <Container maxWidth="xl" sx={{my: 3}}>
                 <Accordion
                     expanded={accordionOpen}
                     onChange={() => setAccordionOpen(!accordionOpen)}
@@ -226,7 +226,7 @@ function InvestmentPlanning() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <FormControl fullWidth required>
-                                    <InputLabel>Underground Floor</InputLabel>
+                                    <InputLabel error={formErrors.UndergroundFloor}>Underground Floor</InputLabel>
                                     <Select
                                         name="UndergroundFloor"
                                         label="Underground Floor"
@@ -234,10 +234,16 @@ function InvestmentPlanning() {
                                         onChange={handleFormChange}
                                         required
                                         error={formErrors.UndergroundFloor}
+
                                     >
                                         <MenuItem value={1}>Yes</MenuItem>
                                         <MenuItem value={0}>No</MenuItem>
                                     </Select>
+                                    {formErrors.UndergroundFloor && (
+                                        <Typography variant="caption" color="error" sx={{ml: 2, mt: '2px'}}>
+                                            This field is required
+                                        </Typography>
+                                    )}
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={4}>
@@ -284,7 +290,7 @@ function InvestmentPlanning() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <FormControl fullWidth required>
-                                    <InputLabel>Above-ground Floors</InputLabel>
+                                    <InputLabel error={formErrors.AboveGroundFloors}>Above-ground Floors</InputLabel>
                                     <Select
                                         name="AboveGroundFloors"
                                         label="AboveGroundFloors"
@@ -297,11 +303,16 @@ function InvestmentPlanning() {
                                         <MenuItem value={2}>2</MenuItem>
                                         <MenuItem value={3}>3</MenuItem>
                                     </Select>
+                                    {formErrors.AboveGroundFloors && (
+                                        <Typography variant="caption" color="error" sx={{ml: 2, mt: '2px'}}>
+                                            This field is required
+                                        </Typography>
+                                    )}
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={2}>
                                 <FormControl fullWidth required>
-                                    <InputLabel>Initial Energy Class</InputLabel>
+                                    <InputLabel error={formErrors.InitialEnergyClass}>Initial Energy Class</InputLabel>
                                     <Select
                                         name="InitialEnergyClass"
                                         label="InitialEnergyClass"
@@ -318,11 +329,16 @@ function InvestmentPlanning() {
                                         <MenuItem value="E">E</MenuItem>
                                         <MenuItem value="F">F</MenuItem>
                                     </Select>
+                                    {formErrors.InitialEnergyClass && (
+                                        <Typography variant="caption" color="error" sx={{ml: 2, mt: '2px'}}>
+                                            This field is required
+                                        </Typography>
+                                    )}
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={2}>
                                 <FormControl fullWidth required>
-                                    <InputLabel>Energy Class After</InputLabel>
+                                    <InputLabel error={formErrors.EnergyClassAfter}>Energy Class After</InputLabel>
                                     <Select
                                         name="EnergyClassAfter"
                                         label="EnergyClassAfter"
@@ -339,6 +355,11 @@ function InvestmentPlanning() {
                                         <MenuItem value="E">E</MenuItem>
                                         <MenuItem value="F">F</MenuItem>
                                     </Select>
+                                    {formErrors.EnergyClassAfter && (
+                                        <Typography variant="caption" color="error" sx={{ml: 2, mt: '2px'}}>
+                                            This field is required
+                                        </Typography>
+                                    )}
                                 </FormControl>
                             </Grid>
                         </Grid>
@@ -347,9 +368,9 @@ function InvestmentPlanning() {
                                 variant="outlined"
                                 color="primary"
                                 onClick={handleReset}
-                                sx={{ borderColor: '#9966ff', color: '#9966ff', mx: 2 }}
+                                sx={{borderColor: '#9966ff', color: '#9966ff', mx: 2}}
                             >
-                                <RestartAltIcon />
+                                <RestartAltIcon/>
                                 RESET
                             </Button>
                             <Button
@@ -362,14 +383,14 @@ function InvestmentPlanning() {
                                     color: 'white',
                                 }}
                             >
-                                <InfoOutlinedIcon sx={{ mr: '4px' }} />
+                                <InfoOutlinedIcon sx={{mr: '4px'}}/>
                                 CALCULATE
                             </Button>
                         </Grid>
                     </AccordionDetails>
                 </Accordion>
 
-                {loading && <Loading />}
+                {loading && <Loading/>}
 
                 {!loading && recommendations.length > 0 && (
                     <>
@@ -443,7 +464,7 @@ function InvestmentPlanning() {
                                                 <Typography
                                                     variant="body2"
                                                     color="text.secondary"
-                                                    sx={{ p: 2 }}
+                                                    sx={{p: 2}}
                                                 >
                                                     {recommendation.description}
                                                 </Typography>
@@ -463,11 +484,11 @@ function InvestmentPlanning() {
                                                     justifyContent: 'center',
                                                 }}
                                             >
-                                                <IconButton sx={{ color: 'green' }}>
-                                                    <DoneIcon sx={{ fontSize: 56 }} />
+                                                <IconButton sx={{color: 'green'}}>
+                                                    <DoneIcon sx={{fontSize: 56}}/>
                                                 </IconButton>
-                                                <IconButton sx={{ color: 'red' }}>
-                                                    <ClearIcon sx={{ fontSize: 56 }} />
+                                                <IconButton sx={{color: 'red'}}>
+                                                    <ClearIcon sx={{fontSize: 56}}/>
                                                 </IconButton>
                                             </div>
                                         </Box>
