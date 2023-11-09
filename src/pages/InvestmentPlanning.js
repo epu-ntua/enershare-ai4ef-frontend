@@ -95,45 +95,69 @@ function InvestmentPlanning() {
         EnergyClassAfter: '',
     };
 
+    const initialFormErrors = {
+        BuildingTotalArea: false,
+        UndergroundFloor: false,
+        ReferenceArea: false,
+        EnergyConsumptionBefore: false,
+        AboveGroundFloors: false,
+        InitialEnergyClass: false,
+        EnergyClassAfter: false,
+    };
+
     const [formData, setFormData] = useState(initialFormState);
-    const [accordionOpen, setAccordionOpen] = useState(true); // Set the Accordion to be expanded by default
-    const [loading, setLoading] = useState(false)
-    const [recommendations, setRecommendations] = useState([])
+    const [formErrors, setFormErrors] = useState(initialFormErrors);
+    const [accordionOpen, setAccordionOpen] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [recommendations, setRecommendations] = useState([]);
 
     const handleFormChange = (event) => {
-        const {name, value} = event.target;
-        setFormData({...formData, [name]: value});
+        const { name, value } = event.target;
+        setFormData({ ...formData, [name]: value });
+        setFormErrors({ ...formErrors, [name]: false });
     };
 
     const handleReset = () => {
-        setFormData(initialFormState)
-    }
+        setFormData(initialFormState);
+        setFormErrors(initialFormErrors);
+    };
 
     const handleSave = () => {
-        // Check if all fields are filled before executing the save function
-        const isFormValid = Object.values(formData).every((value) => {
-            if (typeof value === 'string') {
-                return value.trim() !== '';
-            }
-            return true; // Treat non-strings as valid
-        });
+        const isFormValid = Object.entries(formData).reduce(
+            (isValid, [name, value]) => {
+                if (typeof value === 'string') {
+                    const isEmpty = value.trim() === '';
+                    setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        [name]: isEmpty,
+                    }));
+                    return isValid && !isEmpty;
+                }
+                return isValid;
+            },
+            true
+        );
 
         if (isFormValid) {
-            setLoading(true)
+            setLoading(true);
 
             // Your save logic here
             console.log('Form saved:', formData);
             setTimeout(() => {
-                setRecommendations([...recommendationsTemp])
-                setLoading(false)
-            }, 2000)
+                setRecommendations([...recommendationsTemp]);
+                setLoading(false);
+            }, 2000);
         }
-    }
+    };
 
-    return (<>
-            <Breadcrumb breadcrumbs={breadcrumbs} welcome_msg={''}/>
-            <Container maxWidth="xl" sx={{my: 3}}>
-                <Accordion expanded={accordionOpen} onChange={() => setAccordionOpen(!accordionOpen)}>
+    return (
+        <>
+            <Breadcrumb breadcrumbs={breadcrumbs} welcome_msg={''} />
+            <Container maxWidth="xl" sx={{ my: 3 }}>
+                <Accordion
+                    expanded={accordionOpen}
+                    onChange={() => setAccordionOpen(!accordionOpen)}
+                >
                     <AccordionSummary>
                         <Grid container justifyContent="space-between" alignItems="center">
                             <Grid item xs={12} sm={accordionOpen ? 6 : 2} style={{textAlign: 'left'}}>
@@ -183,13 +207,21 @@ function InvestmentPlanning() {
                             <Grid item xs={12} sm={4}>
                                 <TextField
                                     name="BuildingTotalArea"
-                                    label="Building Total Area (&#13217;)"
+                                    label="Building Total Area (m²)"
                                     fullWidth
                                     value={formData.BuildingTotalArea}
                                     onChange={handleFormChange}
                                     required
+                                    error={formErrors.BuildingTotalArea}
+                                    helperText={
+                                        formErrors.BuildingTotalArea &&
+                                        'This field is required'
+                                    }
                                     type="number"
-                                    inputProps={{ inputMode: 'numeric', min: 0 }}
+                                    inputProps={{
+                                        inputMode: 'numeric',
+                                        min: 0,
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
@@ -201,6 +233,7 @@ function InvestmentPlanning() {
                                         value={formData.UndergroundFloor}
                                         onChange={handleFormChange}
                                         required
+                                        error={formErrors.UndergroundFloor}
                                     >
                                         <MenuItem value={1}>Yes</MenuItem>
                                         <MenuItem value={0}>No</MenuItem>
@@ -210,13 +243,21 @@ function InvestmentPlanning() {
                             <Grid item xs={12} sm={4}>
                                 <TextField
                                     name="ReferenceArea"
-                                    label="Reference Area (&#13217;)"
+                                    label="Reference Area (m²)"
                                     fullWidth
                                     value={formData.ReferenceArea}
                                     onChange={handleFormChange}
                                     required
+                                    error={formErrors.ReferenceArea}
+                                    helperText={
+                                        formErrors.ReferenceArea &&
+                                        'This field is required'
+                                    }
                                     type="number"
-                                    inputProps={{ inputMode: 'numeric', min: 0 }}
+                                    inputProps={{
+                                        inputMode: 'numeric',
+                                        min: 0,
+                                    }}
                                 />
                             </Grid>
 
@@ -229,8 +270,16 @@ function InvestmentPlanning() {
                                     value={formData.EnergyConsumptionBefore}
                                     onChange={handleFormChange}
                                     required
+                                    error={formErrors.EnergyConsumptionBefore}
+                                    helperText={
+                                        formErrors.EnergyConsumptionBefore &&
+                                        'This field is required'
+                                    }
                                     type="number"
-                                    inputProps={{ inputMode: 'numeric', min: 0 }}
+                                    inputProps={{
+                                        inputMode: 'numeric',
+                                        min: 0,
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
@@ -242,6 +291,7 @@ function InvestmentPlanning() {
                                         value={formData.AboveGroundFloors}
                                         onChange={handleFormChange}
                                         required
+                                        error={formErrors.AboveGroundFloors}
                                     >
                                         <MenuItem value={1}>1</MenuItem>
                                         <MenuItem value={2}>2</MenuItem>
@@ -258,6 +308,7 @@ function InvestmentPlanning() {
                                         value={formData.InitialEnergyClass}
                                         onChange={handleFormChange}
                                         required
+                                        error={formErrors.InitialEnergyClass}
                                     >
                                         <MenuItem value="A+">A+</MenuItem>
                                         <MenuItem value="A">A</MenuItem>
@@ -278,6 +329,7 @@ function InvestmentPlanning() {
                                         value={formData.EnergyClassAfter}
                                         onChange={handleFormChange}
                                         required
+                                        error={formErrors.EnergyClassAfter}
                                     >
                                         <MenuItem value="A+">A+</MenuItem>
                                         <MenuItem value="A">A</MenuItem>
@@ -295,84 +347,127 @@ function InvestmentPlanning() {
                                 variant="outlined"
                                 color="primary"
                                 onClick={handleReset}
-                                sx={{borderColor: '#9966ff', color: '#9966ff', mx: 2}}
+                                sx={{ borderColor: '#9966ff', color: '#9966ff', mx: 2 }}
                             >
-                                <RestartAltIcon/>
+                                <RestartAltIcon />
                                 RESET
                             </Button>
                             <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={handleSave}
-                                sx={{backgroundColor: '#9966ff', borderColor: '#9966ff', color: 'white'}}
+                                sx={{
+                                    backgroundColor: '#9966ff',
+                                    borderColor: '#9966ff',
+                                    color: 'white',
+                                }}
                             >
-                                <InfoOutlinedIcon sx={{mr: '4px'}}/>
+                                <InfoOutlinedIcon sx={{ mr: '4px' }} />
                                 CALCULATE
                             </Button>
                         </Grid>
                     </AccordionDetails>
                 </Accordion>
 
-                {loading && <Loading/>}
+                {loading && <Loading />}
 
-                {!loading && recommendations.length > 0 &&
+                {!loading && recommendations.length > 0 && (
                     <>
-                        <Typography variant={'h4'} sx={{
-                            color: theme.palette.primary.main,
-                            mt: 5,
-                            fontWeight: 'bold',
-                            borderBottom: '1px solid #9966ff'
-                        }}>Recommendations</Typography>
+                        <Typography
+                            variant={'h4'}
+                            sx={{
+                                color: theme.palette.primary.main,
+                                mt: 5,
+                                fontWeight: 'bold',
+                                borderBottom: '1px solid #9966ff',
+                            }}
+                        >
+                            Recommendations
+                        </Typography>
                         <Grid container spacing={2} my={1}>
                             {recommendations.map((recommendation) => (
-                                <Grid item key={recommendation.id} xs={12} md={3}>
-                                    <Card sx={{
-                                        backgroundColor: 'white',
-                                        height: '100%',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'space-between'
-                                    }}>
-                                        <div style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
-                                            <Typography variant="h6" align={'center'} component="div"
-                                                        fontWeight={'bold'}
-                                                        sx={{
-                                                            marginTop: 0,
-                                                            alignSelf: 'flex-start',
-                                                            padding: '8px',
-                                                            mx: 'auto',
-                                                            color: theme.palette.primary.main
-                                                        }}>
-                                                {recommendation.title}
-                                            </Typography>
-                                            <div style={{
+                                <Grid
+                                    item
+                                    key={recommendation.id}
+                                    xs={12}
+                                    md={3}
+                                >
+                                    <Card
+                                        sx={{
+                                            backgroundColor: 'white',
+                                            height: '100%',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                flex: 1,
                                                 display: 'flex',
                                                 flexDirection: 'column',
-                                                alignItems: 'center',
-                                                justifyContent: 'center'
-                                            }}>
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="h6"
+                                                align={'center'}
+                                                component="div"
+                                                fontWeight={'bold'}
+                                                sx={{
+                                                    marginTop: 0,
+                                                    alignSelf: 'flex-start',
+                                                    padding: '8px',
+                                                    mx: 'auto',
+                                                    color: theme.palette.primary.main,
+                                                }}
+                                            >
+                                                {recommendation.title}
+                                            </Typography>
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
                                                 <img
-                                                    src={`/images/id${recommendation.id}.jpg`}
+                                                    src={`/images/service1/id${recommendation.id}.jpg`}
                                                     alt={recommendation.title}
-                                                    style={{marginTop: '20px', maxHeight: '140px', width: 'auto'}}
+                                                    style={{
+                                                        marginTop: '20px',
+                                                        maxHeight: '140px',
+                                                        width: 'auto',
+                                                    }}
                                                 />
-                                                <Typography variant="body2" color="text.secondary" sx={{p: 2}}>
+                                                <Typography
+                                                    variant="body2"
+                                                    color="text.secondary"
+                                                    sx={{ p: 2 }}
+                                                >
                                                     {recommendation.description}
                                                 </Typography>
                                             </div>
                                         </div>
-                                        <Box sx={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            flexDirection: 'column',
-                                            marginBottom: '8px'
-                                        }}>
-                                            <div style={{display: 'flex', justifyContent: 'center'}}>
-                                                <IconButton sx={{color: 'green'}}>
-                                                    <DoneIcon sx={{fontSize: 56}}/>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                flexDirection: 'column',
+                                                marginBottom: '8px',
+                                            }}
+                                        >
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                <IconButton sx={{ color: 'green' }}>
+                                                    <DoneIcon sx={{ fontSize: 56 }} />
                                                 </IconButton>
-                                                <IconButton sx={{color: 'red'}}>
-                                                    <ClearIcon sx={{fontSize: 56}}/>
+                                                <IconButton sx={{ color: 'red' }}>
+                                                    <ClearIcon sx={{ fontSize: 56 }} />
                                                 </IconButton>
                                             </div>
                                         </Box>
@@ -381,7 +476,7 @@ function InvestmentPlanning() {
                             ))}
                         </Grid>
                     </>
-                }
+                )}
             </Container>
         </>
     );
