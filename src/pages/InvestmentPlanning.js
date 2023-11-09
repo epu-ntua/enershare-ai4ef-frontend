@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useTheme} from '@mui/material/styles';
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import {
     Container,
@@ -189,7 +189,7 @@ function InvestmentPlanning() {
                                     onChange={handleFormChange}
                                     required
                                     type="number"
-                                    inputProps={{inputMode: 'numeric'}}
+                                    inputProps={{ inputMode: 'numeric', min: 0 }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
@@ -216,7 +216,7 @@ function InvestmentPlanning() {
                                     onChange={handleFormChange}
                                     required
                                     type="number"
-                                    inputProps={{inputMode: 'numeric'}}
+                                    inputProps={{ inputMode: 'numeric', min: 0 }}
                                 />
                             </Grid>
 
@@ -230,7 +230,7 @@ function InvestmentPlanning() {
                                     onChange={handleFormChange}
                                     required
                                     type="number"
-                                    inputProps={{inputMode: 'numeric'}}
+                                    inputProps={{ inputMode: 'numeric', min: 0 }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
