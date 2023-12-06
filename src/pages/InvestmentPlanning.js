@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import {Link} from "react-router-dom";
 import axios from 'axios'
+import {transformToHumanReadable} from "../utils";
 
 import {
     Container,
@@ -153,7 +154,7 @@ function InvestmentPlanning() {
                                     {Object.entries(formData).map(([key, value]) => (
                                         <Grid item xs={12} sm={1} key={key} style={{textAlign: 'center'}}>
                                             <Typography variant="body2">
-                                                <strong>{key.replace(/([A-Z])/g, ' $1').trim()}</strong>
+                                                <strong>{transformToHumanReadable(key)}</strong>
                                                 <br/> {value || '-'}
                                             </Typography>
                                         </Grid>
