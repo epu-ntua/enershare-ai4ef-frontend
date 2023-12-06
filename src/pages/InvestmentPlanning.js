@@ -83,6 +83,7 @@ function InvestmentPlanning() {
     };
 
     const handleReset = () => {
+        setError(false)
         setRecommendations([])
         setFormData(initialFormState);
         setFormErrors(initialFormErrors);
@@ -106,13 +107,12 @@ function InvestmentPlanning() {
 
         if (isFormValid) {
             setError(false)
+            setRecommendations([])
             setLoading(true);
 
             // Your save logic here
-            console.log('Form saved:', formData);
             axios.post('/service_1/inference', formData)
                 .then(response => {
-                    console.log(response.data)
                     setLoading(false)
                     setRecommendations(response.data)
                 })

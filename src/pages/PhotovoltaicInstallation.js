@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {useTheme} from '@mui/material/styles';
+import axios from 'axios'
+import {transformToHumanReadable} from "../utils";
 
 import {
     Container,
@@ -14,7 +16,7 @@ import {
     FormControl,
     InputLabel,
     Select,
-    MenuItem, Card, Box, IconButton,
+    MenuItem, Card, Box, Stack, Alert,
 } from '@mui/material';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -23,47 +25,6 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 import Breadcrumb from '../components/layout/Breadcrumb';
 import Loading from "../components/layout/Loading";
-import DoneIcon from "@mui/icons-material/Done";
-import ClearIcon from "@mui/icons-material/Clear";
-
-const forecastsTemp = [
-    {
-        "title": "Electricity produced by solar panels",
-        "description": "The amount of electricity produced by the solar panels, which are installed in the project",
-        "type": "float",
-        "unit": "[MWh per year]",
-        "minimum": "0",
-        "maximum": "-",
-        "id": "1"
-    },
-    {
-        "title": "Primary energy consumption after",
-        "description": "Primary energy consumption after installing the solar panel system",
-        "type": "float",
-        "unit": "[MWh per year]",
-        "minimum": "0",
-        "maximum": "-",
-        "id": "2"
-    },
-    {
-        "title": "Reduction of primary energy consumption",
-        "description": "Reduction of primary energy consumption: Difference between primary energy consumption before and after",
-        "type": "float",
-        "unit": "[MWh per year]",
-        "minimum": "0",
-        "maximum": "-",
-        "id": "3"
-    },
-    {
-        "title": "CO2 emissions reduction",
-        "description": "The amount of CO2 emissions reduction in the project",
-        "type": "float",
-        "unit": "[CO2 per year]",
-        "minimum": "0",
-        "maximum": "-",
-        "id": "4"
-    }
-]
 
 const breadcrumbs = [
     <Link className={'breadcrumbLink'} key="1" to="/">
@@ -84,22 +45,23 @@ function PhotovoltaicInstallation() {
     const theme = useTheme();
 
     const initialFormState = {
-        ElectricityConsumption: '',
-        PrimaryEnergyConsumptionBefore: '',
-        InverterSetPower: '',
-        InverterPowerInProject: '',
-        Region: '',
+        electricity_consumption_of_the_grid: '',
+        primary_energy_consumption_before: '',
+        current_inverter_set_power: '',
+        inverter_power_in_project: '',
+        region: '',
     };
 
     const [formErrors, setFormErrors] = useState({
-        ElectricityConsumption: false,
-        PrimaryEnergyConsumptionBefore: false,
-        InverterSetPower: false,
-        InverterPowerInProject: false,
-        Region: false,
+        electricity_consumption_of_the_grid: false,
+        primary_energy_consumption_before: false,
+        current_inverter_set_power: false,
+        inverter_power_in_project: false,
+        region: false,
     });
 
     const [formData, setFormData] = useState(initialFormState);
+    const [error, setError] = useState(false)
     const [accordionOpen, setAccordionOpen] = useState(true);
     const [loading, setLoading] = useState(false);
     const [forecasts, setForecasts] = useState([]);
@@ -111,13 +73,15 @@ function PhotovoltaicInstallation() {
     };
 
     const handleReset = () => {
+        setForecasts([])
+        setError(false)
         setFormData(initialFormState);
         setFormErrors({
-            ElectricityConsumption: false,
-            PrimaryEnergyConsumptionBefore: false,
-            InverterSetPower: false,
-            InverterPowerInProject: false,
-            Region: false,
+            electricity_consumption_of_the_grid: false,
+            primary_energy_consumption_before: false,
+            current_inverter_set_power: false,
+            inverter_power_in_project: false,
+            region: false,
         });
     };
 
@@ -139,13 +103,20 @@ function PhotovoltaicInstallation() {
 
         if (isFormValid) {
             setLoading(true);
+            setError(false)
+            setForecasts([])
 
             // Your save logic here
-            console.log('Form saved:', formData);
-            setTimeout(() => {
-                setForecasts([...forecastsTemp]);
-                setLoading(false);
-            }, 2000);
+            axios.post('/service_2/inference', formData)
+                .then(response => {
+                    setLoading(false)
+                    setForecasts(response.data)
+                })
+                .catch(error => {
+                    setLoading(false)
+                    setError(true)
+                    console.log(error)
+                })
         }
     };
 
@@ -182,7 +153,7 @@ function PhotovoltaicInstallation() {
                                     {Object.entries(formData).map(([key, value]) => (
                                         <Grid item xs={12} sm={1} key={key} style={{textAlign: 'center'}}>
                                             <Typography variant="body2">
-                                                <strong>{key.replace(/([A-Z])/g, ' $1').trim()}</strong>
+                                                <strong>{transformToHumanReadable(key)}</strong>
                                                 <br/> {value || '-'}
                                             </Typography>
                                         </Grid>
@@ -207,15 +178,15 @@ function PhotovoltaicInstallation() {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={4}>
                                 <TextField
-                                    name="ElectricityConsumption"
+                                    name="electricity_consumption_of_the_grid"
                                     label="Electricity Consumption of the Grid (mWh)"
                                     fullWidth
-                                    value={formData.ElectricityConsumption}
+                                    value={formData.electricity_consumption_of_the_grid}
                                     onChange={handleFormChange}
                                     required
-                                    error={formErrors.ElectricityConsumption}
+                                    error={formErrors.electricity_consumption_of_the_grid}
                                     helperText={
-                                        formErrors.ElectricityConsumption &&
+                                        formErrors.electricity_consumption_of_the_grid &&
                                         'This field is required'
                                     }
                                     type="number"
@@ -224,15 +195,15 @@ function PhotovoltaicInstallation() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <TextField
-                                    name="PrimaryEnergyConsumptionBefore"
+                                    name="primary_energy_consumption_before"
                                     label="Primary Energy Consumption Before (kW)"
                                     fullWidth
-                                    value={formData.PrimaryEnergyConsumptionBefore}
+                                    value={formData.primary_energy_consumption_before}
                                     onChange={handleFormChange}
                                     required
-                                    error={formErrors.PrimaryEnergyConsumptionBefore}
+                                    error={formErrors.primary_energy_consumption_before}
                                     helperText={
-                                        formErrors.PrimaryEnergyConsumptionBefore &&
+                                        formErrors.primary_energy_consumption_before &&
                                         'This field is required'
                                     }
                                     type="number"
@@ -241,15 +212,15 @@ function PhotovoltaicInstallation() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <TextField
-                                    name="InverterSetPower"
+                                    name="current_inverter_set_power"
                                     label="Current Inverter Set Power (kW)"
                                     fullWidth
-                                    value={formData.InverterSetPower}
+                                    value={formData.current_inverter_set_power}
                                     onChange={handleFormChange}
                                     required
-                                    error={formErrors.InverterSetPower}
+                                    error={formErrors.current_inverter_set_power}
                                     helperText={
-                                        formErrors.InverterSetPower &&
+                                        formErrors.current_inverter_set_power &&
                                         'This field is required'
                                     }
                                     type="number"
@@ -258,15 +229,15 @@ function PhotovoltaicInstallation() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <TextField
-                                    name="InverterPowerInProject"
+                                    name="inverter_power_in_project"
                                     label="Inverter Power in Project (kW)"
                                     fullWidth
-                                    value={formData.InverterPowerInProject}
+                                    value={formData.inverter_power_in_project}
                                     onChange={handleFormChange}
                                     required
-                                    error={formErrors.InverterPowerInProject}
+                                    error={formErrors.inverter_power_in_project}
                                     helperText={
-                                        formErrors.InverterPowerInProject &&
+                                        formErrors.inverter_power_in_project &&
                                         'This field is required'
                                     }
                                     type="number"
@@ -275,22 +246,22 @@ function PhotovoltaicInstallation() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <FormControl fullWidth required>
-                                    <InputLabel error={formErrors.Region}>Region</InputLabel>
+                                    <InputLabel error={formErrors.region}>Region</InputLabel>
                                     <Select
-                                        name="Region"
-                                        label="Region"
-                                        value={formData.Region}
+                                        name="region"
+                                        label="region"
+                                        value={formData.region}
                                         onChange={handleFormChange}
                                         required
-                                        error={formErrors.Region}
+                                        error={formErrors.region}
                                     >
                                         <MenuItem value="Kurzeme">Kurzeme</MenuItem>
+                                        <MenuItem value="Rīga">Riga</MenuItem>
+                                        <MenuItem value="Zemgale">Zemgale</MenuItem>
                                         <MenuItem value="Latgale">Latgale</MenuItem>
-                                        <MenuItem value="Riga">Riga</MenuItem>
-                                        <MenuItem value="Vidzene">Vidzene</MenuItem>
-                                        <MenuItem value="Regale">Regale</MenuItem>
+                                        <MenuItem value="Vidzeme">Vidzeme</MenuItem>
                                     </Select>
-                                    {formErrors.Region && (
+                                    {formErrors.region && (
                                         <Typography variant="caption" color="error" sx={{ml: 2, mt: '2px'}}>
                                             This field is required
                                         </Typography>
@@ -326,6 +297,13 @@ function PhotovoltaicInstallation() {
                 </Accordion>
 
                 {loading && <Loading/>}
+
+                {error &&
+                    <Stack sx={{width: '100%'}} spacing={2}>
+                        <Alert severity="error">Something went wrong! Please check your input because it may have some
+                            inconsistencies! Otherwise, please try again in a bit!</Alert>
+                    </Stack>
+                }
 
                 {!loading && forecasts.length > 0 && (
                     <>
@@ -421,7 +399,8 @@ function PhotovoltaicInstallation() {
                                                     alignItems: 'center'
                                                 }}
                                             >
-                                                <Typography variant={'h3'} fontWeight={'bold'} color={theme.palette.primary.main}>0.21</Typography>
+                                                <Typography variant={'h3'} fontWeight={'bold'}
+                                                            color={theme.palette.primary.main}>{forecast.value}</Typography>
                                                 <Typography variant={'body2'}>{forecast.unit}</Typography>
                                             </div>
                                         </Box>
