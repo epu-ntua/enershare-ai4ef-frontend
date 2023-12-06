@@ -1,15 +1,19 @@
 import React from "react";
 import './App.css';
+import axios from 'axios'
 import {
     BrowserRouter as Router, // Import BrowserRouter
     Routes,
     Route
 } from "react-router-dom";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import Layout from "./components/layout/Layout";
 import Homepage from "./pages/Homepage";
 import InvestmentPlanning from "./pages/InvestmentPlanning";
 import PhotovoltaicInstallation from "./pages/PhotovoltaicInstallation";
+
+// Set axios default base url
+axios.defaults.baseURL = 'http://enershare.epu.ntua.gr:8888/';
 
 // Set primary color here
 let green_primary = '#18e5b0';
@@ -41,9 +45,9 @@ function App() {
             <Router> {/* Wrap your entire application with BrowserRouter */}
                 <Layout>
                     <Routes>
-                        <Route path="/" element={<Homepage />} />
-                        <Route path="/investment-planning" element={<InvestmentPlanning />} />
-                        <Route path="/photovoltaic-installation" element={<PhotovoltaicInstallation />} />
+                        <Route path="/" element={<Homepage/>}/>
+                        <Route path="/investment-planning" element={<InvestmentPlanning/>}/>
+                        <Route path="/photovoltaic-installation" element={<PhotovoltaicInstallation/>}/>
                     </Routes>
                 </Layout>
             </Router>

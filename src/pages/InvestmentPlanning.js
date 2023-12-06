@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import {Link} from "react-router-dom";
+import axios from 'axios'
 
 import {
     Container,
@@ -18,6 +19,7 @@ import {
     Card,
     Box,
     IconButton,
+    Alert, Stack
 } from '@mui/material';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -28,45 +30,6 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import Breadcrumb from "../components/layout/Breadcrumb";
 import Loading from "../components/layout/Loading";
-
-const recommendationsTemp = [
-    {
-        "title": "Carrying out construction works",
-        "description": "Carrying out construction works in the enclosing structures during the project (to increase the energy efficiency of the house)",
-        "type": "int",
-        "unit": "-",
-        "minimum": "0",
-        "maximum": "1",
-        "id": "1"
-    },
-    {
-        "title": "Reconstruction of engineering systems",
-        "description": "Reconstruction of engineering systems (ventilation, recuperation) to increase the energy efficiency of the house (during the project)",
-        "type": "int",
-        "unit": "-",
-        "minimum": "0",
-        "maximum": "2",
-        "id": "2"
-    },
-    {
-        "title": "Water heating system",
-        "description": "Installation of a new water heating system (during the project)",
-        "type": "int",
-        "unit": "-",
-        "minimum": "0",
-        "maximum": "3",
-        "id": "3"
-    },
-    {
-        "title": "Heat installation",
-        "description": "Installation of heat installations to ensure the production of heat from renewable energy sources",
-        "type": "int",
-        "unit": "-",
-        "minimum": "0",
-        "maximum": "4",
-        "id": "4"
-    }
-];
 
 const breadcrumbs = [
     <Link className={'breadcrumbLink'} key="1" to="/">
@@ -86,23 +49,23 @@ function InvestmentPlanning() {
     const theme = useTheme();
 
     const initialFormState = {
-        BuildingTotalArea: '',
-        UndergroundFloor: '',
-        ReferenceArea: '',
-        EnergyConsumptionBefore: '',
-        AboveGroundFloors: '',
-        InitialEnergyClass: '',
-        EnergyClassAfter: '',
+        building_total_area: '',
+        underground_floor: '',
+        reference_area: '',
+        energy_consumption_before: '',
+        above_ground_floors: '',
+        initial_energy_class: '',
+        energy_class_after: '',
     };
 
     const initialFormErrors = {
-        BuildingTotalArea: false,
-        UndergroundFloor: false,
-        ReferenceArea: false,
-        EnergyConsumptionBefore: false,
-        AboveGroundFloors: false,
-        InitialEnergyClass: false,
-        EnergyClassAfter: false,
+        building_total_area: false,
+        underground_floor: false,
+        reference_area: false,
+        energy_consumption_before: false,
+        above_ground_floors: false,
+        initial_energy_class: false,
+        energy_class_after: false,
     };
 
     const [formData, setFormData] = useState(initialFormState);
@@ -110,6 +73,7 @@ function InvestmentPlanning() {
     const [accordionOpen, setAccordionOpen] = useState(true);
     const [loading, setLoading] = useState(false);
     const [recommendations, setRecommendations] = useState([]);
+    const [error, setError] = useState(false)
 
     const handleFormChange = (event) => {
         const {name, value} = event.target;
@@ -118,6 +82,7 @@ function InvestmentPlanning() {
     };
 
     const handleReset = () => {
+        setRecommendations([])
         setFormData(initialFormState);
         setFormErrors(initialFormErrors);
     };
@@ -139,14 +104,22 @@ function InvestmentPlanning() {
         );
 
         if (isFormValid) {
+            setError(false)
             setLoading(true);
 
             // Your save logic here
             console.log('Form saved:', formData);
-            setTimeout(() => {
-                setRecommendations([...recommendationsTemp]);
-                setLoading(false);
-            }, 2000);
+            axios.post('/service_1/inference', formData)
+                .then(response => {
+                    console.log(response.data)
+                    setLoading(false)
+                    setRecommendations(response.data)
+                })
+                .catch(error => {
+                    setLoading(false)
+                    setError(true)
+                    console.log(error)
+                })
         }
     };
 
@@ -206,15 +179,15 @@ function InvestmentPlanning() {
                             {/* First Row */}
                             <Grid item xs={12} sm={4}>
                                 <TextField
-                                    name="BuildingTotalArea"
+                                    name="building_total_area"
                                     label="Building Total Area (m²)"
                                     fullWidth
-                                    value={formData.BuildingTotalArea}
+                                    value={formData.building_total_area}
                                     onChange={handleFormChange}
                                     required
-                                    error={formErrors.BuildingTotalArea}
+                                    error={formErrors.building_total_area}
                                     helperText={
-                                        formErrors.BuildingTotalArea &&
+                                        formErrors.building_total_area &&
                                         'This field is required'
                                     }
                                     type="number"
@@ -226,20 +199,20 @@ function InvestmentPlanning() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <FormControl fullWidth required>
-                                    <InputLabel error={formErrors.UndergroundFloor}>Underground Floor</InputLabel>
+                                    <InputLabel error={formErrors.underground_floor}>Underground Floor</InputLabel>
                                     <Select
-                                        name="UndergroundFloor"
+                                        name="underground_floor"
                                         label="Underground Floor"
-                                        value={formData.UndergroundFloor}
+                                        value={formData.underground_floor}
                                         onChange={handleFormChange}
                                         required
-                                        error={formErrors.UndergroundFloor}
+                                        error={formErrors.underground_floor}
 
                                     >
                                         <MenuItem value={1}>Yes</MenuItem>
                                         <MenuItem value={0}>No</MenuItem>
                                     </Select>
-                                    {formErrors.UndergroundFloor && (
+                                    {formErrors.underground_floor && (
                                         <Typography variant="caption" color="error" sx={{ml: 2, mt: '2px'}}>
                                             This field is required
                                         </Typography>
@@ -248,15 +221,15 @@ function InvestmentPlanning() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <TextField
-                                    name="ReferenceArea"
+                                    name="reference_area"
                                     label="Reference Area (m²)"
                                     fullWidth
-                                    value={formData.ReferenceArea}
+                                    value={formData.reference_area}
                                     onChange={handleFormChange}
                                     required
-                                    error={formErrors.ReferenceArea}
+                                    error={formErrors.reference_area}
                                     helperText={
-                                        formErrors.ReferenceArea &&
+                                        formErrors.reference_area &&
                                         'This field is required'
                                     }
                                     type="number"
@@ -270,15 +243,15 @@ function InvestmentPlanning() {
                             {/* Second Row */}
                             <Grid item xs={12} sm={4}>
                                 <TextField
-                                    name="EnergyConsumptionBefore"
+                                    name="energy_consumption_before"
                                     label="Energy Consumption before (kWh)"
                                     fullWidth
-                                    value={formData.EnergyConsumptionBefore}
+                                    value={formData.energy_consumption_before}
                                     onChange={handleFormChange}
                                     required
-                                    error={formErrors.EnergyConsumptionBefore}
+                                    error={formErrors.energy_consumption_before}
                                     helperText={
-                                        formErrors.EnergyConsumptionBefore &&
+                                        formErrors.energy_consumption_before &&
                                         'This field is required'
                                     }
                                     type="number"
@@ -290,20 +263,20 @@ function InvestmentPlanning() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <FormControl fullWidth required>
-                                    <InputLabel error={formErrors.AboveGroundFloors}>Above-ground Floors</InputLabel>
+                                    <InputLabel error={formErrors.above_ground_floors}>Above-ground Floors</InputLabel>
                                     <Select
-                                        name="AboveGroundFloors"
+                                        name="above_ground_floors"
                                         label="AboveGroundFloors"
-                                        value={formData.AboveGroundFloors}
+                                        value={formData.above_ground_floors}
                                         onChange={handleFormChange}
                                         required
-                                        error={formErrors.AboveGroundFloors}
+                                        error={formErrors.above_ground_floors}
                                     >
                                         <MenuItem value={1}>1</MenuItem>
                                         <MenuItem value={2}>2</MenuItem>
                                         <MenuItem value={3}>3</MenuItem>
                                     </Select>
-                                    {formErrors.AboveGroundFloors && (
+                                    {formErrors.above_ground_floors && (
                                         <Typography variant="caption" color="error" sx={{ml: 2, mt: '2px'}}>
                                             This field is required
                                         </Typography>
@@ -312,14 +285,15 @@ function InvestmentPlanning() {
                             </Grid>
                             <Grid item xs={12} sm={2}>
                                 <FormControl fullWidth required>
-                                    <InputLabel error={formErrors.InitialEnergyClass}>Initial Energy Class</InputLabel>
+                                    <InputLabel error={formErrors.initial_energy_class}>Initial Energy
+                                        Class</InputLabel>
                                     <Select
-                                        name="InitialEnergyClass"
+                                        name="initial_energy_class"
                                         label="InitialEnergyClass"
-                                        value={formData.InitialEnergyClass}
+                                        value={formData.initial_energy_class}
                                         onChange={handleFormChange}
                                         required
-                                        error={formErrors.InitialEnergyClass}
+                                        error={formErrors.initial_energy_class}
                                     >
                                         <MenuItem value="A+">A+</MenuItem>
                                         <MenuItem value="A">A</MenuItem>
@@ -329,7 +303,7 @@ function InvestmentPlanning() {
                                         <MenuItem value="E">E</MenuItem>
                                         <MenuItem value="F">F</MenuItem>
                                     </Select>
-                                    {formErrors.InitialEnergyClass && (
+                                    {formErrors.initial_energy_class && (
                                         <Typography variant="caption" color="error" sx={{ml: 2, mt: '2px'}}>
                                             This field is required
                                         </Typography>
@@ -338,14 +312,14 @@ function InvestmentPlanning() {
                             </Grid>
                             <Grid item xs={12} sm={2}>
                                 <FormControl fullWidth required>
-                                    <InputLabel error={formErrors.EnergyClassAfter}>Energy Class After</InputLabel>
+                                    <InputLabel error={formErrors.energy_class_after}>Energy Class After</InputLabel>
                                     <Select
-                                        name="EnergyClassAfter"
+                                        name="energy_class_after"
                                         label="EnergyClassAfter"
-                                        value={formData.EnergyClassAfter}
+                                        value={formData.energy_class_after}
                                         onChange={handleFormChange}
                                         required
-                                        error={formErrors.EnergyClassAfter}
+                                        error={formErrors.energy_class_after}
                                     >
                                         <MenuItem value="A+">A+</MenuItem>
                                         <MenuItem value="A">A</MenuItem>
@@ -355,7 +329,7 @@ function InvestmentPlanning() {
                                         <MenuItem value="E">E</MenuItem>
                                         <MenuItem value="F">F</MenuItem>
                                     </Select>
-                                    {formErrors.EnergyClassAfter && (
+                                    {formErrors.energy_class_after && (
                                         <Typography variant="caption" color="error" sx={{ml: 2, mt: '2px'}}>
                                             This field is required
                                         </Typography>
@@ -391,6 +365,13 @@ function InvestmentPlanning() {
                 </Accordion>
 
                 {loading && <Loading/>}
+
+                {error &&
+                    <Stack sx={{width: '100%'}} spacing={2}>
+                        <Alert severity="error">Something went wrong! Please check your input because it may have some
+                            inconsistencies! Otherwise, please try again in a bit!</Alert>
+                    </Stack>
+                }
 
                 {!loading && recommendations.length > 0 && (
                     <>
@@ -484,12 +465,13 @@ function InvestmentPlanning() {
                                                     justifyContent: 'center',
                                                 }}
                                             >
-                                                <IconButton sx={{color: 'green'}}>
-                                                    <DoneIcon sx={{fontSize: 56}}/>
-                                                </IconButton>
-                                                <IconButton sx={{color: 'red'}}>
-                                                    <ClearIcon sx={{fontSize: 56}}/>
-                                                </IconButton>
+                                                {recommendation.value === "True" ? <IconButton sx={{color: 'green'}}>
+                                                        <DoneIcon sx={{fontSize: 56}}/>
+                                                    </IconButton> :
+                                                    <IconButton sx={{color: 'red'}}>
+                                                        <ClearIcon sx={{fontSize: 56}}/>
+                                                    </IconButton>
+                                                }
                                             </div>
                                         </Box>
                                     </Card>

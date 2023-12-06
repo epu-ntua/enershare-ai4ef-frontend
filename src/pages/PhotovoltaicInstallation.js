@@ -58,7 +58,7 @@ const forecastsTemp = [
         "title": "CO2 emissions reduction",
         "description": "The amount of CO2 emissions reduction in the project",
         "type": "float",
-        "unit": "[t CO2 per year]",
+        "unit": "[CO2 per year]",
         "minimum": "0",
         "maximum": "-",
         "id": "4"
