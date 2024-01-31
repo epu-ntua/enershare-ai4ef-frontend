@@ -9,7 +9,7 @@ const FooterContent = () => {
             <Grid container spacing={0}
                   alignItems="center" justifyItems={'center'}>
                 <Grid item xs={12} md={4}>
-                    <Typography fontSize={'small'}>Copyright EnerShare Consortium @{new Date().getFullYear()} All rights reserved</Typography>
+                    <Typography fontSize={'small'} align={'center'}>Copyright EnerShare Consortium @{new Date().getFullYear()} All rights reserved</Typography>
                 </Grid>
 
                 <Box item xs={12} md={1} marginX={'auto'} alignItems="center" justifyItems={'center'}>
@@ -17,7 +17,7 @@ const FooterContent = () => {
                 </Box>
 
                 <Grid item xs={12} md={7}>
-                    <Typography fontSize={'small'} alignContent={'center'}> Co-funded
+                    <Typography fontSize={'small'} align={'center'}> Co-funded
                         by the Horizon 2020
                         Framework Programme of the European Union Under grant
                         agreement No 101069831
