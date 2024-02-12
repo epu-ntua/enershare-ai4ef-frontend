@@ -107,11 +107,23 @@ export default function Layout({children}) {
     };
 
     const menuItems = [
-        {text: 'Homepage', icon: <HomeOutlinedIcon color="primary"/>, path: "/",},
-        {text: 'Investment Planning', icon: <EnergySavingsLeafIcon color="primary"/>, path: "/investment-planning",},
+        {
+            text: 'Homepage',
+            icon: <HomeOutlinedIcon
+                sx={{color: location.pathname === '/' ? 'white' : theme.palette.primary.main}}/>,
+            path: "/",
+        },
+        {
+            text: 'Investment Planning',
+            icon:
+                <EnergySavingsLeafIcon
+                    sx={{color: location.pathname === '/investment-planning' ? 'white' : theme.palette.primary.main}}/>,
+            path: "/investment-planning",
+        },
         {
             text: 'Photovoltaic Installation',
-            icon: <SolarPowerIcon color="primary"/>,
+            icon: <SolarPowerIcon
+                sx={{color: location.pathname === '/photovoltaic-installation' ? 'white' : theme.palette.primary.main}}/>,
             path: "/photovoltaic-installation",
         },
     ]
@@ -177,7 +189,8 @@ export default function Layout({children}) {
                                         <ListItemIcon className={'menuIcon'}>
                                             {item.icon}
                                         </ListItemIcon>
-                                        <ListItemText sx={{color: location.pathname === item.path ? 'white' : ''}} primary={item.text}/>
+                                        <ListItemText sx={{color: location.pathname === item.path ? 'white' : ''}}
+                                                      primary={item.text}/>
                                     </ListItemButton>
                                 </ListItem>
                             </Link>
