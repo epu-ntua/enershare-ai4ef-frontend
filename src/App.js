@@ -14,6 +14,7 @@ import PhotovoltaicInstallation from "./pages/PhotovoltaicInstallation";
 import SignUp from "./pages/SignUp";
 
 import Login from "./pages/Login";
+import UserProfile from "./pages/UserProfile";
 
 // Set axios default base url
 axios.defaults.baseURL = 'http://enershare.epu.ntua.gr:8888/';
@@ -50,6 +51,8 @@ function App() {
                     <Routes>
                         <Route path="/"
                                element={<Homepage/>}/>
+                        <Route path="/user/profile"
+                               element={<UserProfile/>}/>
                         <Route path="/signup"
                                element={<SignUp/>}/>
                         <Route path="/investment-planning"
