@@ -7,17 +7,12 @@ import Keycloak from "keycloak-js";
 //     "clientId": "leif_service_local"
 // })
 
-// ICCS deployment configuration
-// const my_keycloak = new Keycloak({
-//     "realm": "enershare",
-//     "url": "https://oblachek.eu:8443/",
-//     "clientId": "leif_service_ntua"
-// })
-
+// NTUA deployment configuration
 const my_keycloak = new Keycloak({
-    "realm": "inergy",
-    "url": "https://oblachek.eu:8443/",
-    "clientId": "uc7_iccs_deployment"
+    "realm": "enershare",
+    "url": "http://enershare.epu.ntua.gr:8080/auth",
+    "clientId": "leif_service_ntua"
 })
+
 
 export default my_keycloak
