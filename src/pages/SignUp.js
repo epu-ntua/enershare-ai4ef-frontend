@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,8 +8,11 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useKeycloak } from '@react-keycloak/web';
+import { Navigate } from 'react-router-dom';
 
 export default function SignUp() {
+    const { keycloak, initialized } = useKeycloak();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
@@ -79,10 +82,24 @@ export default function SignUp() {
         validateForm();
     };
 
+    const [allowed, setAllowed] = useState(false)
+    const [checkFinished, setCheckFinished] = useState(false)
+
+    useEffect(() => {
+        if (initialized) {
+            if (!keycloak.authenticated) {
+                setAllowed(true);
+            }
+            setCheckFinished(true)
+        }
+    }, [initialized]);
+
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <Box
+            {(!allowed && checkFinished) && <Navigate to="/" />}
+            {allowed && <Box
                 sx={{
                     marginTop: 8,
                     display: 'flex',
@@ -90,13 +107,13 @@ export default function SignUp() {
                     alignItems: 'center',
                 }}
             >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                    <LockOutlinedIcon />
+                <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+                    <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 3}}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -175,12 +192,12 @@ export default function SignUp() {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
+                        sx={{mt: 3, mb: 2}}
                     >
                         Sign Up
                     </Button>
                 </Box>
-            </Box>
+            </Box>}
         </Container>
     );
 }
