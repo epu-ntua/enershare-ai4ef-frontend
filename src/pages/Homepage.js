@@ -5,7 +5,7 @@ const Homepage = () => {
     return (
         <div data-testid={"homepageOverall"}>
             {servicesHomepage.map((service, index) => (
-                <div data-testid={"homepageItem"}>
+                <div data-testid={"homepageItem"} key={index}>
                     <HomepageItemFullWidth title={service.title} description={service.description} icon={service.icon}
                                            image={service.image} link={service.link} index={index} key={service.id}
                     />

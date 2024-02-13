@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import {Link} from "react-router-dom";
 import axios from 'axios'
 import {transformToHumanReadable} from "../utils";
+import {useKeycloak} from "@react-keycloak/web";
 
 import {
     Container,
@@ -47,6 +48,20 @@ const breadcrumbs = [
 ];
 
 function InvestmentPlanning() {
+    const {keycloak, initialized} = useKeycloak();
+    const [allowed,setAllowed] = useState(false)
+
+    useEffect(() => {
+        console.log(initialized, keycloak)
+
+        if (initialized) {
+
+            if (keycloak.authenticated !== true) {
+                keycloak.login()
+            }
+        }
+    }, [initialized])
+
     const theme = useTheme();
 
     const initialFormState = {

@@ -2,7 +2,7 @@ import React from "react";
 import './App.css';
 import axios from 'axios'
 import {
-    BrowserRouter as Router, // Import BrowserRouter
+    BrowserRouter as Router,
     Routes,
     Route
 } from "react-router-dom";
@@ -12,6 +12,8 @@ import Homepage from "./pages/Homepage";
 import InvestmentPlanning from "./pages/InvestmentPlanning";
 import PhotovoltaicInstallation from "./pages/PhotovoltaicInstallation";
 import SignUp from "./pages/SignUp";
+
+import Login from "./pages/Login";
 
 // Set axios default base url
 axios.defaults.baseURL = 'http://enershare.epu.ntua.gr:8888/';
@@ -43,13 +45,17 @@ const theme = createTheme({
 function App() {
     return (
         <ThemeProvider theme={theme}>
-            <Router> {/* Wrap your entire application with BrowserRouter */}
+            <Router>
                 <Layout>
                     <Routes>
-                        <Route path="/" element={<Homepage/>}/>
-                        <Route path="/signup" element={<SignUp/>}/>
-                        <Route path="/investment-planning" element={<InvestmentPlanning/>}/>
-                        <Route path="/photovoltaic-installation" element={<PhotovoltaicInstallation/>}/>
+                        <Route path="/"
+                               element={<Homepage/>}/>
+                        <Route path="/signup"
+                               element={<SignUp/>}/>
+                        <Route path="/investment-planning"
+                               element={<InvestmentPlanning/>}/>
+                        <Route path="/photovoltaic-installation"
+                               element={<PhotovoltaicInstallation/>}/>
                     </Routes>
                 </Layout>
             </Router>

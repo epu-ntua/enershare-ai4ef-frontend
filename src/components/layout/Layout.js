@@ -1,7 +1,8 @@
-import * as React from 'react';
-import {Link, useLocation} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from "react-router-dom";
+import { useKeycloak } from "@react-keycloak/web";
 
-import {styled, useTheme} from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -22,12 +23,17 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SolarPowerIcon from '@mui/icons-material/SolarPower';
 import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 import FooterContent from "./FooterContent";
+import MenuButton from "./MenuButton";
+
+import { appbarMenuButtonItems } from "../../appbarMenuButtonItems";
 
 const drawerWidth = 240;
 
-const DrawerHeader = styled('div')(({theme}) => ({
+const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -38,7 +44,7 @@ const DrawerHeader = styled('div')(({theme}) => ({
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
-})(({theme, open}) => ({
+})(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
@@ -55,8 +61,8 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
-    ({theme, open}) => ({
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
         flexGrow: 1,
         // padding: theme.spacing(3),
         transition: theme.transitions.create('margin', {
@@ -76,7 +82,7 @@ const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
 
 const Footer = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
-})(({theme, open}) => ({
+})(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
@@ -93,7 +99,9 @@ const Footer = styled(MuiAppBar, {
     }),
 }));
 
-export default function Layout({children}) {
+export default function Layout({ children }) {
+    const { keycloak, initialized } = useKeycloak();
+
     const location = useLocation()
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -109,29 +117,67 @@ export default function Layout({children}) {
     const menuItems = [
         {
             text: 'Homepage',
-            icon: <HomeOutlinedIcon
-                sx={{color: location.pathname === '/' ? 'white' : theme.palette.primary.main}}/>,
+            icon:
+                <HomeOutlinedIcon
+                    sx={{ color: theme.palette.primary.main }} />,
             path: "/",
         },
-        {
-            text: 'Investment Planning',
-            icon:
-                <EnergySavingsLeafIcon
-                    sx={{color: location.pathname === '/investment-planning' ? 'white' : theme.palette.primary.main}}/>,
-            path: "/investment-planning",
-        },
-        {
-            text: 'Photovoltaic Installation',
-            icon: <SolarPowerIcon
-                sx={{color: location.pathname === '/photovoltaic-installation' ? 'white' : theme.palette.primary.main}}/>,
-            path: "/photovoltaic-installation",
-        },
     ]
+    const [menu, setMenu] = useState(menuItems)
+
+
+    useEffect(() => {
+        if (initialized) {
+            console.log(initialized, keycloak.authenticated)
+            if (keycloak.authenticated) {
+                menuItems.push(
+                    {
+                        text: 'Investment Planning',
+                        icon:
+                            <EnergySavingsLeafIcon
+                                sx={{ color: theme.palette.primary.main }} />,
+                        path: "/investment-planning",
+                    },
+                    {
+                        text: 'Photovoltaic Installation',
+                        icon:
+                            <SolarPowerIcon
+                                sx={{ color: theme.palette.primary.main }} />,
+                        path: "/photovoltaic-installation",
+                    },
+                )
+            } else {
+                menuItems.push(
+                    {
+                        text: 'Sign Up',
+                        icon:
+                            <PersonAddIcon
+                                sx={{ color: theme.palette.primary.main }} />,
+                        path: "/signup",
+                    },
+                    {
+                        text: 'Sign In',
+                        icon:
+                            <AccountCircleIcon
+                                sx={{ color: theme.palette.primary.main }} />,
+                        // path: "/signup",
+                    },
+                )
+            }
+
+            setMenu(menuItems)
+        }
+    }, [initialized, keycloak])
+
+    const handleSignOut = () => {
+        keycloak.logout()
+        setMenu(menuItems)
+    }
 
     return (
         <>
-            <Box sx={{display: 'flex', minHeight: `calc(100vh - 60px)`}}>
-                <CssBaseline/>
+            <Box sx={{ display: 'flex', minHeight: `calc(100vh - 60px)` }}>
+                <CssBaseline />
                 <AppBar position="fixed" open={open}>
                     <Toolbar>
                         <IconButton
@@ -140,14 +186,22 @@ export default function Layout({children}) {
                             edge="start"
                             sx={{
                                 marginRight: 5,
-                                ...(open && {display: 'none'}), color: 'white'
+                                ...(open && { display: 'none' }), color: 'white'
                             }}
                         >
-                            <MenuIcon/>
+                            <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" noWrap component="div" color={'white'}>
                             Artificial Intelligence for Energy Efficiency
                         </Typography>
+                        {keycloak.authenticated === true && <>
+                            <Typography
+                                sx={{ ml: 'auto' }}
+                                style={{
+                                    color: 'white'
+                                }}>Welcome, {keycloak?.tokenParsed?.preferred_username}</Typography>
+                            <MenuButton subLinks={appbarMenuButtonItems} signout={handleSignOut} />
+                        </>}
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -166,12 +220,12 @@ export default function Layout({children}) {
                 >
                     <DrawerHeader>
                         <IconButton onClick={handleDrawerClose}>
-                            {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
+                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
                     </DrawerHeader>
-                    <Divider/>
+                    <Divider />
                     <List>
-                        {menuItems.map(item => (
+                        {menu.map(item => (
                             <Link key={item.text}
                                   style={{
                                       textDecoration: 'none',
@@ -180,6 +234,7 @@ export default function Layout({children}) {
                                   to={item.path}
                             >
                                 <ListItem key={item.text} disablePadding
+                                          onClick={item.text === 'Sign In' ? () => keycloak.login() : void (0)}
                                           sx={{
                                               background: location.pathname === item.path ? 'linear-gradient(to left, rgba(153,102,255,1), rgba(24,229,176,1) 100%)' : '',
                                               border: location.pathname === item.path ? '1px solid rgba(153,102,255,1)' : '',
@@ -189,23 +244,23 @@ export default function Layout({children}) {
                                         <ListItemIcon className={'menuIcon'}>
                                             {item.icon}
                                         </ListItemIcon>
-                                        <ListItemText sx={{color: location.pathname === item.path ? 'white' : ''}}
-                                                      primary={item.text}/>
+                                        <ListItemText sx={{ color: location.pathname === item.path ? 'white' : '' }}
+                                                      primary={item.text} />
                                     </ListItemButton>
                                 </ListItem>
                             </Link>
                         ))}
                     </List>
-                    <Divider/>
+                    <Divider />
                 </Drawer>
-                <Box component="main" sx={{flexGrow: 1, background: '#fafafa'}}>
+                <Box component="main" sx={{ flexGrow: 1, background: '#fafafa' }}>
                     <Main open={open}>
-                        <DrawerHeader/>
+                        <DrawerHeader />
                         {children}
                     </Main>
                 </Box>
             </Box>
-            <Footer sx={{position: 'sticky', mt: 'auto'}} open={open}><FooterContent/></Footer>
+            <Footer sx={{ position: 'sticky', mt: 'auto' }} open={open}><FooterContent /></Footer>
         </>
     );
 }
