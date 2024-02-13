@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {useTheme} from '@mui/material/styles';
 import axios from 'axios'
 import {transformToHumanReadable} from "../utils";
+import {useKeycloak} from "@react-keycloak/web";
 
 import {
     Container,
@@ -43,6 +44,20 @@ const breadcrumbs = [
 
 function PhotovoltaicInstallation() {
     const theme = useTheme();
+    const {keycloak, initialized} = useKeycloak();
+    const [allowed,setAllowed] = useState(false)
+
+    useEffect(() => {
+        console.log(initialized, keycloak)
+
+        if (initialized) {
+            if (keycloak.authenticated !== true) {
+                keycloak.login()
+            } else {
+                setAllowed(true)
+            }
+        }
+    }, [initialized])
 
     const initialFormState = {
         electricity_consumption_of_the_grid: '',
@@ -123,7 +138,7 @@ function PhotovoltaicInstallation() {
     return (
         <>
             <Breadcrumb breadcrumbs={breadcrumbs} welcome_msg={''}/>
-            <Container maxWidth="xl" sx={{my: 3}}>
+            {allowed && <Container maxWidth="xl" sx={{my: 3}}>
                 <Accordion
                     expanded={accordionOpen}
                     onChange={() => setAccordionOpen(!accordionOpen)}
@@ -410,7 +425,7 @@ function PhotovoltaicInstallation() {
                         </Grid>
                     </>
                 )}
-            </Container>
+            </Container>}
         </>
     );
 }

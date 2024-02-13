@@ -128,7 +128,6 @@ export default function Layout({ children }) {
 
     useEffect(() => {
         if (initialized) {
-            console.log(initialized, keycloak.authenticated)
             if (keycloak.authenticated) {
                 menuItems.push(
                     {

@@ -55,9 +55,10 @@ function InvestmentPlanning() {
         console.log(initialized, keycloak)
 
         if (initialized) {
-
             if (keycloak.authenticated !== true) {
                 keycloak.login()
+            } else {
+                setAllowed(true)
             }
         }
     }, [initialized])
@@ -142,7 +143,7 @@ function InvestmentPlanning() {
     return (
         <>
             <Breadcrumb breadcrumbs={breadcrumbs} welcome_msg={''}/>
-            <Container maxWidth="xl" sx={{my: 3}}>
+            {allowed && <Container maxWidth="xl" sx={{my: 3}}>
                 <Accordion
                     expanded={accordionOpen}
                     onChange={() => setAccordionOpen(!accordionOpen)}
@@ -496,7 +497,7 @@ function InvestmentPlanning() {
                         </Grid>
                     </>
                 )}
-            </Container>
+            </Container>}
         </>
     );
 }
