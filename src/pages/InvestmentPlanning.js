@@ -261,7 +261,7 @@ function InvestmentPlanning() {
                             <Grid item xs={12} sm={4}>
                                 <TextField
                                     name="energy_consumption_before"
-                                    label="Energy Consumption before (kWh)"
+                                    label="Energy Consumption before (kWh/m²)"
                                     fullWidth
                                     value={formData.energy_consumption_before}
                                     onChange={handleFormChange}
@@ -312,7 +312,7 @@ function InvestmentPlanning() {
                                         required
                                         error={formErrors.initial_energy_class}
                                     >
-                                        <MenuItem value="A+">A+</MenuItem>
+                                        {/*<MenuItem value="A+">A+</MenuItem>*/}
                                         <MenuItem value="A">A</MenuItem>
                                         <MenuItem value="B">B</MenuItem>
                                         <MenuItem value="C">C</MenuItem>
@@ -338,7 +338,7 @@ function InvestmentPlanning() {
                                         required
                                         error={formErrors.energy_class_after}
                                     >
-                                        <MenuItem value="A+">A+</MenuItem>
+                                        {/*<MenuItem value="A+">A+</MenuItem>*/}
                                         <MenuItem value="A">A</MenuItem>
                                         <MenuItem value="B">B</MenuItem>
                                         <MenuItem value="C">C</MenuItem>
