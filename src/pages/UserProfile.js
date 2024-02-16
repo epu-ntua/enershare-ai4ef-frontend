@@ -54,8 +54,6 @@ const UserProfile = () => {
     const [allowed,setAllowed] = useState(false)
 
     useEffect(() => {
-        console.log(initialized, keycloak)
-
         if (initialized) {
             if (keycloak.authenticated !== true) {
                 keycloak.login()

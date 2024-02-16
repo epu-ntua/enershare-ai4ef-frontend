@@ -13,7 +13,6 @@ import InvestmentPlanning from "./pages/InvestmentPlanning";
 import PhotovoltaicInstallation from "./pages/PhotovoltaicInstallation";
 import SignUp from "./pages/SignUp";
 
-import Login from "./pages/Login";
 import UserProfile from "./pages/UserProfile";
 
 // Set axios default base url
