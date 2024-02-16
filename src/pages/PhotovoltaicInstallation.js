@@ -48,8 +48,6 @@ function PhotovoltaicInstallation() {
     const [allowed,setAllowed] = useState(false)
 
     useEffect(() => {
-        console.log(initialized, keycloak)
-
         if (initialized) {
             if (keycloak.authenticated !== true) {
                 keycloak.login()
@@ -60,18 +58,16 @@ function PhotovoltaicInstallation() {
     }, [initialized])
 
     const initialFormState = {
-        electricity_consumption_of_the_grid: '',
-        primary_energy_consumption_before: '',
+        average_monthly_electricity_consumption_before: '',
         current_inverter_set_power: '',
-        inverter_power_in_project: '',
+        planned_inverter_set_power: '',
         region: '',
     };
 
     const [formErrors, setFormErrors] = useState({
-        electricity_consumption_of_the_grid: false,
-        primary_energy_consumption_before: false,
+        average_monthly_electricity_consumption_before: false,
         current_inverter_set_power: false,
-        inverter_power_in_project: false,
+        planned_inverter_set_power: false,
         region: false,
     });
 
@@ -92,10 +88,9 @@ function PhotovoltaicInstallation() {
         setError(false)
         setFormData(initialFormState);
         setFormErrors({
-            electricity_consumption_of_the_grid: false,
-            primary_energy_consumption_before: false,
+            average_monthly_electricity_consumption_before: false,
             current_inverter_set_power: false,
-            inverter_power_in_project: false,
+            planned_inverter_set_power: false,
             region: false,
         });
     };
@@ -121,7 +116,6 @@ function PhotovoltaicInstallation() {
             setError(false)
             setForecasts([])
 
-            // Your save logic here
             axios.post('/service_2/inference', formData)
                 .then(response => {
                     setLoading(false)
@@ -191,41 +185,25 @@ function PhotovoltaicInstallation() {
 
                     <AccordionDetails>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={4}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField
-                                    name="electricity_consumption_of_the_grid"
-                                    label="Electricity Consumption of the Grid (mWh)"
+                                    name="average_monthly_electricity_consumption_before"
+                                    label="Average monthly consumption before (kWh/month)"
                                     fullWidth
-                                    value={formData.electricity_consumption_of_the_grid}
+                                    value={formData.average_monthly_electricity_consumption_before}
                                     onChange={handleFormChange}
                                     required
-                                    error={formErrors.electricity_consumption_of_the_grid}
+                                    error={formErrors.average_monthly_electricity_consumption_before}
                                     helperText={
-                                        formErrors.electricity_consumption_of_the_grid &&
+                                        formErrors.average_monthly_electricity_consumption_before &&
                                         'This field is required'
                                     }
                                     type="number"
                                     inputProps={{inputMode: 'numeric', min: 0}}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    name="primary_energy_consumption_before"
-                                    label="Primary Energy Consumption Before (kW)"
-                                    fullWidth
-                                    value={formData.primary_energy_consumption_before}
-                                    onChange={handleFormChange}
-                                    required
-                                    error={formErrors.primary_energy_consumption_before}
-                                    helperText={
-                                        formErrors.primary_energy_consumption_before &&
-                                        'This field is required'
-                                    }
-                                    type="number"
-                                    inputProps={{inputMode: 'numeric', min: 0}}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
+
+                            <Grid item xs={12} sm={6}>
                                 <TextField
                                     name="current_inverter_set_power"
                                     label="Current Inverter Set Power (kW)"
@@ -242,24 +220,24 @@ function PhotovoltaicInstallation() {
                                     inputProps={{inputMode: 'numeric', min: 0}}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField
-                                    name="inverter_power_in_project"
-                                    label="Inverter Power in Project (kW)"
+                                    name="planned_inverter_set_power"
+                                    label="Planned Inverter Power (kW)"
                                     fullWidth
-                                    value={formData.inverter_power_in_project}
+                                    value={formData.planned_inverter_set_power}
                                     onChange={handleFormChange}
                                     required
-                                    error={formErrors.inverter_power_in_project}
+                                    error={formErrors.planned_inverter_set_power}
                                     helperText={
-                                        formErrors.inverter_power_in_project &&
+                                        formErrors.planned_inverter_set_power &&
                                         'This field is required'
                                     }
                                     type="number"
                                     inputProps={{inputMode: 'numeric', min: 0}}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
+                            <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth required>
                                     <InputLabel error={formErrors.region}>Region</InputLabel>
                                     <Select
