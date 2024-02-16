@@ -52,16 +52,16 @@ function InvestmentPlanning() {
     const [allowed,setAllowed] = useState(false)
 
     useEffect(() => {
-        console.log(initialized, keycloak)
-
         if (initialized) {
             if (keycloak.authenticated !== true) {
-                keycloak.login()
+                keycloak.login();
             } else {
-                setAllowed(true)
+                setAllowed(true);
             }
         }
-    }, [initialized])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initialized]);
+
 
     const theme = useTheme();
 

@@ -45,7 +45,7 @@ const breadcrumbs = [
 function PhotovoltaicInstallation() {
     const theme = useTheme();
     const {keycloak, initialized} = useKeycloak();
-    const [allowed,setAllowed] = useState(false)
+    const [allowed, setAllowed] = useState(false)
 
     useEffect(() => {
         if (initialized) {
@@ -55,6 +55,7 @@ function PhotovoltaicInstallation() {
                 setAllowed(true)
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialized])
 
     const initialFormState = {
@@ -78,8 +79,9 @@ function PhotovoltaicInstallation() {
     const [forecasts, setForecasts] = useState([]);
 
     const handleFormChange = (event) => {
-        const {name, value} = event.target;
-        setFormData({...formData, [name]: value});
+        console.log(event.target.type)
+        const {name, value, type} = event.target;
+        setFormData({...formData, [name]: type === 'number' ? Number(value) : value});
         setFormErrors({...formErrors, [name]: false});
     };
 
@@ -115,6 +117,8 @@ function PhotovoltaicInstallation() {
             setLoading(true);
             setError(false)
             setForecasts([])
+
+            console.log(formData)
 
             axios.post('/service_2/inference', formData)
                 .then(response => {
