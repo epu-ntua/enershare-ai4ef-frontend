@@ -227,7 +227,7 @@ function PhotovoltaicInstallation() {
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     name="planned_inverter_set_power"
-                                    label="Planned Inverter Power (kW)"
+                                    label="Planned Inverter Set Power (kW)"
                                     fullWidth
                                     value={formData.planned_inverter_set_power}
                                     onChange={handleFormChange}
