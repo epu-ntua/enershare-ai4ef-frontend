@@ -50,3 +50,16 @@ code {
   overflow: hidden !important;
   transition: linear 200ms;
 }
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 50%; /* Default width for larger screens */
+}
+
+@media (max-width: 600px) {
+  .modalContent {
+    width: 90%; /* Adjust width for mobile screens */
+  }
+}

@@ -19,7 +19,7 @@ import {
     Select,
     MenuItem,
     Card,
-    Box,
+    Box, Modal,
     IconButton,
     Alert, Stack
 } from '@mui/material';
@@ -50,6 +50,7 @@ const breadcrumbs = [
 function InvestmentPlanning() {
     const {keycloak, initialized} = useKeycloak();
     const [allowed, setAllowed] = useState(false)
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
         if (initialized) {
@@ -62,6 +63,8 @@ function InvestmentPlanning() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialized]);
 
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
 
     const theme = useTheme();
 
@@ -151,6 +154,24 @@ function InvestmentPlanning() {
 
     return (
         <>
+            <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <div className="modalContent">
+                    <Typography id="modal-title" variant="h6">Modal Title</Typography>
+                    <Typography id="modal-description" variant="body1">Modal Content</Typography>
+                </div>
+            </Modal>
+
+
             <Breadcrumb breadcrumbs={breadcrumbs} welcome_msg={''}/>
             {allowed && <Container maxWidth="xl" sx={{my: 3}}>
                 <Accordion
@@ -363,7 +384,14 @@ function InvestmentPlanning() {
                                 </FormControl>
                             </Grid>
                         </Grid>
-                        <Grid container justifyContent="flex-end" mt={3} mb={1}>
+                        <Grid container justifyContent="flex-end" alignItems="center" mt={3} mb={1}>
+                            <Typography variant={'h6'}
+                                        sx={{marginRight: 'auto', alignItems: 'center', color: theme.palette.primary.main}}>
+                                Building Consumption / Energy Class information
+                                <IconButton size="small" color="primary" onClick={handleOpenModal}>
+                                    <InfoOutlinedIcon/>
+                                </IconButton>
+                            </Typography>
                             <Button
                                 variant="outlined"
                                 color="primary"
@@ -387,6 +415,7 @@ function InvestmentPlanning() {
                                 CALCULATE
                             </Button>
                         </Grid>
+
                     </AccordionDetails>
                 </Accordion>
 
@@ -416,12 +445,12 @@ function InvestmentPlanning() {
                             {recommendations
                                 .filter(recommendation => recommendation.value === 'True')
                                 .map((recommendation, index) => (
-                                    <Grid
-                                        item
-                                        key={recommendation.id}
-                                        xs={12}
-                                        md={calculateColumnCount(recommendations.filter(rec => rec.value === 'True').length)}
-                                    >
+                                        <Grid
+                                            item
+                                            key={recommendation.id}
+                                            xs={12}
+                                            md={calculateColumnCount(recommendations.filter(rec => rec.value === 'True').length)}
+                                        >
                                             <Card
                                                 sx={{
                                                     backgroundColor: 'white',
@@ -508,7 +537,6 @@ function InvestmentPlanning() {
                                     )
                                 )}
                         </Grid>
-
                     </>
                 )}
             </Container>}
