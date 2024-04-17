@@ -270,7 +270,7 @@ function InvestmentPlanning() {
                             <Grid item xs={12} sm={4}>
                                 <TextField
                                     name="energy_consumption_before"
-                                    label="Energy Consumption before (kWh/m²)"
+                                    label="Monthly Energy Consumption before (kWh/m²)"
                                     fullWidth
                                     value={formData.energy_consumption_before}
                                     onChange={handleFormChange}
