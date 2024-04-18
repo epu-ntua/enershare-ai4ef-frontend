@@ -8,7 +8,6 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Paper,
     IconButton,
     Typography
 } from '@mui/material';
@@ -32,7 +31,7 @@ function BuildingEnergyClassTable() {
                 All the numbers represent heating consumption measured in kWh/m<sup>2</sup>
             </Typography>
 
-            <TableContainer component={Paper} sx={{border: '1px solid #ccc'}}>
+            <TableContainer sx={{border: '1px solid #ccc'}}>
                 <Table>
                     <TableHead>
                         <TableRow sx={{backgroundColor: theme.palette.primary.main}}>
