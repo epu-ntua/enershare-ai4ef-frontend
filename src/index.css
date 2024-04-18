@@ -51,8 +51,18 @@ code {
   transition: linear 200ms;
 }
 
+.modalContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
 .modalContent {
   background-color: white;
+  margin-right: auto;
+  margin-left: auto;
   padding: 20px;
   border-radius: 5px;
   width: 50%; /* Default width for larger screens */

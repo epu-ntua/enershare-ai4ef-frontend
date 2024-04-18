@@ -32,6 +32,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import Breadcrumb from "../components/layout/Breadcrumb";
 import Loading from "../components/layout/Loading";
+import BuildingEnergyClass from "../components/investmentPlanning/BuildingEnergyClass";
 
 const breadcrumbs = [
     <Link className={'breadcrumbLink'} key="1" to="/">
@@ -165,9 +166,16 @@ function InvestmentPlanning() {
                     justifyContent: 'center',
                 }}
             >
-                <div className="modalContent">
-                    <Typography id="modal-title" variant="h6">Modal Title</Typography>
-                    <Typography id="modal-description" variant="body1">Modal Content</Typography>
+                <div className="modalContainer">
+                    <div className="modalContent">
+                        <Typography id="modal-title" variant="h6" sx={{ marginRight: 'auto', alignItems: 'center', color: theme.palette.primary.main }}>
+                            Building Consumption / Energy Class information
+                        </Typography>
+                        <Typography id="modal-description" variant="body1" sx={{mb: 2}}>
+                            Use this table to identify your building's energy class based on the consumption.
+                        </Typography>
+                        <BuildingEnergyClass/>
+                    </div>
                 </div>
             </Modal>
 
@@ -386,7 +394,11 @@ function InvestmentPlanning() {
                         </Grid>
                         <Grid container justifyContent="flex-end" alignItems="center" mt={3} mb={1}>
                             <Typography variant={'h6'}
-                                        sx={{marginRight: 'auto', alignItems: 'center', color: theme.palette.primary.main}}>
+                                        sx={{
+                                            marginRight: 'auto',
+                                            alignItems: 'center',
+                                            color: theme.palette.primary.main
+                                        }}>
                                 Building Consumption / Energy Class information
                                 <IconButton size="small" color="primary" onClick={handleOpenModal}>
                                     <InfoOutlinedIcon/>
