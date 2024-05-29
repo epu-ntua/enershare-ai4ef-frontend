@@ -6,18 +6,9 @@ import {transformToHumanReadable} from "../utils";
 import {useKeycloak} from "@react-keycloak/web";
 
 import {
-    Container,
-    Accordion,
-    AccordionSummary,
-    AccordionDetails,
-    Button,
-    Typography,
-    Grid,
-    TextField,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem, Card, Box, Stack, Alert,
+    Container, Accordion, AccordionSummary, AccordionDetails,
+    Button, Typography, Grid, TextField, FormControl,
+    InputLabel, Select, Divider, MenuItem, Card, Box, Stack, Alert, IconButton,
 } from '@mui/material';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -60,6 +51,10 @@ function PhotovoltaicInstallation() {
 
     const initialFormState = {
         average_monthly_electricity_consumption_before: '',
+        average_electricity_price: '',
+        renewable_installation_cost: '',
+        renewable_energy_generated: '',
+
         current_inverter_set_power: '',
         planned_inverter_set_power: '',
         region: '',
@@ -67,6 +62,10 @@ function PhotovoltaicInstallation() {
 
     const [formErrors, setFormErrors] = useState({
         average_monthly_electricity_consumption_before: false,
+        average_electricity_price: false,
+        renewable_installation_cost: false,
+        renewable_energy_generated: false,
+
         current_inverter_set_power: false,
         planned_inverter_set_power: false,
         region: false,
@@ -79,7 +78,6 @@ function PhotovoltaicInstallation() {
     const [forecasts, setForecasts] = useState([]);
 
     const handleFormChange = (event) => {
-        console.log(event.target.type)
         const {name, value, type} = event.target;
         setFormData({...formData, [name]: type === 'number' ? Number(value) : value});
         setFormErrors({...formErrors, [name]: false});
@@ -91,6 +89,10 @@ function PhotovoltaicInstallation() {
         setFormData(initialFormState);
         setFormErrors({
             average_monthly_electricity_consumption_before: false,
+            average_electricity_price: false,
+            renewable_installation_cost: false,
+            renewable_energy_generated: false,
+
             current_inverter_set_power: false,
             planned_inverter_set_power: false,
             region: false,
@@ -120,16 +122,16 @@ function PhotovoltaicInstallation() {
 
             console.log(formData)
 
-            axios.post('/service_2/inference', formData)
-                .then(response => {
-                    setLoading(false)
-                    setForecasts(response.data)
-                })
-                .catch(error => {
-                    setLoading(false)
-                    setError(true)
-                    console.log(error)
-                })
+            // axios.post('/service_2/inference', formData)
+            //     .then(response => {
+            //         setLoading(false)
+            //         setForecasts(response.data)
+            //     })
+            //     .catch(error => {
+            //         setLoading(false)
+            //         setError(true)
+            //         console.log(error)
+            //     })
         }
     };
 
@@ -189,7 +191,7 @@ function PhotovoltaicInstallation() {
 
                     <AccordionDetails>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={4}>
                                 <TextField
                                     name="average_monthly_electricity_consumption_before"
                                     label="Average monthly consumption before (kWh/month)"
@@ -207,14 +209,86 @@ function PhotovoltaicInstallation() {
                                 />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
+
+                            <Grid item xs={12} sm={4}>
+                                <TextField
+                                    name="average_electricity_price"
+                                    label="Average electricity price (€/kwh)"
+                                    fullWidth
+                                    value={formData.average_electricity_price}
+                                    onChange={handleFormChange}
+                                    required
+                                    error={formErrors.average_electricity_price}
+                                    helperText={
+                                        formErrors.average_electricity_price &&
+                                        'This field is required'
+                                    }
+                                    type="number"
+                                    inputProps={{inputMode: 'numeric', min: 0}}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12} sm={4}>
+                                <TextField
+                                    name="renewable_installation_cost"
+                                    label="Installation costs of the renewable production equipment (€)"
+                                    fullWidth
+                                    value={formData.renewable_installation_cost}
+                                    onChange={handleFormChange}
+                                    required
+                                    error={formErrors.renewable_installation_cost}
+                                    helperText={
+                                        formErrors.renewable_installation_cost &&
+                                        'This field is required'
+                                    }
+                                    type="number"
+                                    inputProps={{inputMode: 'numeric', min: 0}}
+                                />
+                            </Grid>
+
+                            <Divider style={{width: '90%'}} sx={{mt: 3, mb: 2, mx: 'auto'}}/>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="renewable_energy_generated"
+                                    label="Average amount of energy generated by the renewable equipment (MWh/year)"
+                                    fullWidth
+                                    value={formData.renewable_energy_generated}
+                                    onChange={handleFormChange}
+                                    // required
+                                    type="number"
+                                    error={formErrors.renewable_energy_generated}
+                                    helperText={
+                                        formErrors.renewable_energy_generated &&
+                                        'This field is required'
+                                    }
+                                    inputProps={{inputMode: 'numeric', min: 0}}
+                                />
+
+                                <Typography variant={'body2'}
+                                            sx={{
+                                                marginRight: 'auto',
+                                                alignItems: 'center',
+                                                color: theme.palette.primary.main,
+                                            }}>
+                                    <IconButton size="small" color="primary">
+                                        <InfoOutlinedIcon/>
+                                    </IconButton>
+                                    Leave this blank if you don’t know the value and the AI algorithm will make an
+                                    estimation based on your input.
+                                </Typography>
+                            </Grid>
+
+
+                            <Grid item xs={12} sm={4}>
                                 <TextField
                                     name="current_inverter_set_power"
                                     label="Current Inverter Set Power (kW)"
                                     fullWidth
                                     value={formData.current_inverter_set_power}
                                     onChange={handleFormChange}
-                                    required
+                                    required={formData.renewable_energy_generated === '' || formData.renewable_energy_generated === 0}
+                                    disabled={formData.renewable_energy_generated !== '' || formData.renewable_energy_generated !== 0}
                                     error={formErrors.current_inverter_set_power}
                                     helperText={
                                         formErrors.current_inverter_set_power &&
@@ -224,14 +298,15 @@ function PhotovoltaicInstallation() {
                                     inputProps={{inputMode: 'numeric', min: 0}}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={4}>
                                 <TextField
                                     name="planned_inverter_set_power"
                                     label="Planned Inverter Set Power (kW)"
                                     fullWidth
                                     value={formData.planned_inverter_set_power}
                                     onChange={handleFormChange}
-                                    required
+                                    required={formData.renewable_energy_generated === '' || formData.renewable_energy_generated === 0}
+                                    disabled={formData.renewable_energy_generated !== '' || formData.renewable_energy_generated !== 0}
                                     error={formErrors.planned_inverter_set_power}
                                     helperText={
                                         formErrors.planned_inverter_set_power &&
@@ -241,15 +316,16 @@ function PhotovoltaicInstallation() {
                                     inputProps={{inputMode: 'numeric', min: 0}}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <FormControl fullWidth required>
+                            <Grid item xs={12} sm={4}>
+                                <FormControl fullWidth
+                                             required={formData.renewable_energy_generated === '' || formData.renewable_energy_generated === 0}
+                                             disabled={formData.renewable_energy_generated !== '' || formData.renewable_energy_generated !== 0}>
                                     <InputLabel error={formErrors.region}>Region</InputLabel>
                                     <Select
                                         name="region"
                                         label="region"
                                         value={formData.region}
                                         onChange={handleFormChange}
-                                        required
                                         error={formErrors.region}
                                     >
                                         <MenuItem value="Kurzeme">Kurzeme</MenuItem>
