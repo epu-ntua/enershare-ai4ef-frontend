@@ -561,7 +561,7 @@ function InvestmentPlanning() {
                                                             color={'primary'}
                                                             textAlign="center"
                                                         >
-                                                            Fill the Excel file to calculate potential reductions in energy use and greenhouse gas emissions resulting from heat energy technologies.
+                                                            Download this file to calculate the energy savings and greenhouse gas emissions reduction that can come with a renovation of your heating system.
                                                         </Typography>
                                                         <Button
                                                             variant="contained"
