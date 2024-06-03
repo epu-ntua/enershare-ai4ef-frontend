@@ -100,15 +100,25 @@ function PhotovoltaicInstallation() {
     };
 
     const handleSave = () => {
+        // Create a copy of formData for submission
+        const submissionData = {
+            ...formData,
+            renewable_energy_generated: formData.renewable_energy_generated === 0 ? '' : formData.renewable_energy_generated,
+        };
+
+        // Validate formData (original data, not the submissionData)
         const isFormValid = Object.entries(formData).reduce(
             (isValid, [name, value]) => {
-                if (typeof value === 'string') {
-                    const isEmpty = value.trim() === '';
-                    setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        [name]: isEmpty,
-                    }));
-                    return isValid && !isEmpty;
+                if (name !== 'renewable_energy_generated') {
+                    if (typeof value === 'string') {
+                        const isEmpty = value.trim() === '';
+                        setFormErrors((prevErrors) => ({
+                            ...prevErrors,
+                            [name]: isEmpty,
+                        }));
+                        return isValid && !isEmpty;
+                    }
+                    return isValid;
                 }
                 return isValid;
             },
@@ -117,23 +127,25 @@ function PhotovoltaicInstallation() {
 
         if (isFormValid) {
             setLoading(true);
-            setError(false)
-            setForecasts([])
+            setError(false);
+            setForecasts([]);
 
-            console.log(formData)
+            console.log(submissionData);
 
-            // axios.post('/service_2/inference', formData)
-            //     .then(response => {
-            //         setLoading(false)
-            //         setForecasts(response.data)
-            //     })
-            //     .catch(error => {
-            //         setLoading(false)
-            //         setError(true)
-            //         console.log(error)
-            //     })
+            axios.post('/service_2/inference', submissionData)
+                .then(response => {
+                    console.log(response.data)
+                    setLoading(false);
+                    setForecasts(response.data);
+                })
+                .catch(error => {
+                    setLoading(false);
+                    setError(true);
+                    console.log(error);
+                });
         }
     };
+
 
     return (
         <>
@@ -274,7 +286,8 @@ function PhotovoltaicInstallation() {
                                     <IconButton size="small" color="primary">
                                         <InfoOutlinedIcon/>
                                     </IconButton>
-                                    Leave this blank if you don’t know the value and the AI algorithm will make an
+                                    Leave this blank (or 0) if you don’t know the value and the AI algorithm will make
+                                    an
                                     estimation based on your input.
                                 </Typography>
                             </Grid>
@@ -288,7 +301,7 @@ function PhotovoltaicInstallation() {
                                     value={formData.current_inverter_set_power}
                                     onChange={handleFormChange}
                                     required={formData.renewable_energy_generated === '' || formData.renewable_energy_generated === 0}
-                                    disabled={formData.renewable_energy_generated !== '' || formData.renewable_energy_generated !== 0}
+                                    disabled={formData.renewable_energy_generated !== '' && formData.renewable_energy_generated !== 0}
                                     error={formErrors.current_inverter_set_power}
                                     helperText={
                                         formErrors.current_inverter_set_power &&
@@ -306,7 +319,7 @@ function PhotovoltaicInstallation() {
                                     value={formData.planned_inverter_set_power}
                                     onChange={handleFormChange}
                                     required={formData.renewable_energy_generated === '' || formData.renewable_energy_generated === 0}
-                                    disabled={formData.renewable_energy_generated !== '' || formData.renewable_energy_generated !== 0}
+                                    disabled={formData.renewable_energy_generated !== '' && formData.renewable_energy_generated !== 0}
                                     error={formErrors.planned_inverter_set_power}
                                     helperText={
                                         formErrors.planned_inverter_set_power &&
@@ -319,7 +332,7 @@ function PhotovoltaicInstallation() {
                             <Grid item xs={12} sm={4}>
                                 <FormControl fullWidth
                                              required={formData.renewable_energy_generated === '' || formData.renewable_energy_generated === 0}
-                                             disabled={formData.renewable_energy_generated !== '' || formData.renewable_energy_generated !== 0}>
+                                             disabled={formData.renewable_energy_generated !== '' && formData.renewable_energy_generated !== 0}>
                                     <InputLabel error={formErrors.region}>Region</InputLabel>
                                     <Select
                                         name="region"
@@ -397,7 +410,7 @@ function PhotovoltaicInstallation() {
                                     item
                                     key={forecast.id}
                                     xs={12}
-                                    md={3}
+                                    md={4}
                                 >
                                     <Card
                                         sx={{
