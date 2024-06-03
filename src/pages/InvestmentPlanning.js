@@ -29,6 +29,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import ClearIcon from '@mui/icons-material/Clear';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import DownloadIcon from '@mui/icons-material/Download';
 
 import Breadcrumb from "../components/layout/Breadcrumb";
 import Loading from "../components/layout/Loading";
@@ -168,7 +169,8 @@ function InvestmentPlanning() {
             >
                 <div className="modalContainer">
                     <div className="modalContent">
-                        <Typography id="modal-title" variant="h6" sx={{ marginRight: 'auto', alignItems: 'center', color: theme.palette.primary.main }}>
+                        <Typography id="modal-title" variant="h6"
+                                    sx={{marginRight: 'auto', alignItems: 'center', color: theme.palette.primary.main}}>
                             Building Consumption / Energy Class information
                         </Typography>
                         <Typography id="modal-description" variant="body1" sx={{mb: 2}}>
@@ -544,6 +546,41 @@ function InvestmentPlanning() {
                                                         }
                                                     </div>
                                                 </Box>
+                                                {recommendation.title === 'Reconstruction of engineering systems' && (
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                            flexDirection: 'column',
+                                                            mb: 2,
+                                                        }}
+                                                    >
+                                                        <Typography
+                                                            variant={'body2'}
+                                                            color={'primary'}
+                                                            textAlign="center"
+                                                        >
+                                                            Fill the Excel file to calculate potential reductions in energy use and greenhouse gas emissions resulting from heat energy technologies.
+                                                        </Typography>
+                                                        <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            startIcon={<DownloadIcon />}
+                                                            href="/Replacement of Thermal Energy Equipment.xlsx" // Path to the file in the public folder
+                                                            download
+                                                            sx={{
+                                                                backgroundColor: '#9966ff',
+                                                                borderColor: '#9966ff',
+                                                                color: 'white',
+                                                                mt: 1
+                                                            }}
+                                                        >
+                                                            Download File
+                                                        </Button>
+                                                    </Box>
+                                                )}
+
                                             </Card>
                                         </Grid>
                                     )
