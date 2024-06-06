@@ -459,133 +459,134 @@ function InvestmentPlanning() {
                             {recommendations
                                 .filter(recommendation => recommendation.value === 'True')
                                 .map((recommendation, index) => (
-                                        <Grid
-                                            item
-                                            key={recommendation.id}
-                                            xs={12}
-                                            md={calculateColumnCount(recommendations.filter(rec => rec.value === 'True').length)}
+                                    <Grid
+                                        item
+                                        key={recommendation.id}
+                                        xs={12}
+                                        md={calculateColumnCount(recommendations.filter(rec => rec.value === 'True').length)}
+                                    >
+                                        <Card
+                                            sx={{
+                                                backgroundColor: 'white',
+                                                height: '100%',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                justifyContent: 'space-between',
+                                            }}
                                         >
-                                            <Card
-                                                sx={{
-                                                    backgroundColor: 'white',
-                                                    height: '100%',
+                                            <div
+                                                style={{
+                                                    flex: 1,
                                                     display: 'flex',
                                                     flexDirection: 'column',
-                                                    justifyContent: 'space-between',
+                                                }}
+                                            >
+                                                <Typography
+                                                    variant="h6"
+                                                    align={'center'}
+                                                    component="div"
+                                                    fontWeight={'bold'}
+                                                    sx={{
+                                                        marginTop: 0,
+                                                        alignSelf: 'flex-start',
+                                                        padding: '8px',
+                                                        mx: 'auto',
+                                                        color: theme.palette.primary.main,
+                                                    }}
+                                                >
+                                                    {recommendation.title}
+                                                </Typography>
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={`/images/service1/id${recommendation.id}.jpg`}
+                                                        alt={recommendation.title}
+                                                        style={{
+                                                            marginTop: '20px',
+                                                            maxHeight: '140px',
+                                                            width: 'auto',
+                                                        }}
+                                                    />
+                                                    <Typography
+                                                        variant="body2"
+                                                        color="text.secondary"
+                                                        sx={{p: 2}}
+                                                    >
+                                                        {recommendation.description}
+                                                    </Typography>
+                                                </div>
+                                            </div>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    flexDirection: 'column',
+                                                    marginBottom: '8px',
                                                 }}
                                             >
                                                 <div
                                                     style={{
-                                                        flex: 1,
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                    }}
-                                                >
-                                                    <Typography
-                                                        variant="h6"
-                                                        align={'center'}
-                                                        component="div"
-                                                        fontWeight={'bold'}
-                                                        sx={{
-                                                            marginTop: 0,
-                                                            alignSelf: 'flex-start',
-                                                            padding: '8px',
-                                                            mx: 'auto',
-                                                            color: theme.palette.primary.main,
-                                                        }}
-                                                    >
-                                                        {recommendation.title}
-                                                    </Typography>
-                                                    <div
-                                                        style={{
-                                                            display: 'flex',
-                                                            flexDirection: 'column',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                        }}
-                                                    >
-                                                        <img
-                                                            src={`/images/service1/id${recommendation.id}.jpg`}
-                                                            alt={recommendation.title}
-                                                            style={{
-                                                                marginTop: '20px',
-                                                                maxHeight: '140px',
-                                                                width: 'auto',
-                                                            }}
-                                                        />
-                                                        <Typography
-                                                            variant="body2"
-                                                            color="text.secondary"
-                                                            sx={{p: 2}}
-                                                        >
-                                                            {recommendation.description}
-                                                        </Typography>
-                                                    </div>
-                                                </div>
-                                                <Box
-                                                    sx={{
                                                         display: 'flex',
                                                         justifyContent: 'center',
-                                                        flexDirection: 'column',
-                                                        marginBottom: '8px',
                                                     }}
                                                 >
-                                                    <div
-                                                        style={{
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                        }}
-                                                    >
-                                                        {recommendation.value === "True" ?
-                                                            <IconButton sx={{color: 'green'}}>
-                                                                <DoneIcon sx={{fontSize: 56}}/>
-                                                            </IconButton> :
-                                                            <IconButton sx={{color: 'red'}}>
-                                                                <ClearIcon sx={{fontSize: 56}}/>
-                                                            </IconButton>
-                                                        }
-                                                    </div>
-                                                </Box>
-                                                {recommendation.title === 'Reconstruction of engineering systems' && (
-                                                    <Box
-                                                        sx={{
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            alignItems: 'center',
-                                                            flexDirection: 'column',
-                                                            mb: 2,
-                                                        }}
-                                                    >
-                                                        <Typography
-                                                            variant={'body2'}
-                                                            color={'primary'}
-                                                            textAlign="center"
-                                                        >
-                                                            Download this file to calculate the energy savings and
-                                                            greenhouse gas emissions reduction that can come with a
-                                                            renovation of your heating system.
-                                                        </Typography>
-                                                        <Button
-                                                            variant="contained"
-                                                            color="primary"
-                                                            startIcon={<DownloadIcon/>}
-                                                            href="/Replacement of Thermal Energy Equipment.xlsx" // Path to the file in the public folder
-                                                            download
-                                                            sx={{
-                                                                backgroundColor: '#9966ff',
-                                                                borderColor: '#9966ff',
-                                                                color: 'white',
-                                                                mt: 1
-                                                            }}
-                                                        >
-                                                            Download File
-                                                        </Button>
-                                                    </Box>
-                                                )}
-                                            </Card>
-                                        </Grid>
-                                    )
-                                )}
+                                                    {recommendation.value === "True" ?
+                                                        <IconButton sx={{color: 'green', border: '3px solid green', borderRadius: '50%'}}>
+                                                            <DoneIcon sx={{fontSize: 40}}/>
+                                                        </IconButton> :
+                                                        <IconButton sx={{color: 'red'}}>
+                                                            <ClearIcon sx={{fontSize: 56}}/>
+                                                        </IconButton>
+                                                    }
+
+                                                </div>
+                                            </Box>
+                                        </Card>
+                                    </Grid>
+                                ))
+                            }
+                            <Grid item xs={12}>
+                                <Card
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        p: 2,
+                                        boxShadow: 'none',
+                                        border: '1px solid #9966ff',
+                                    }}
+                                >
+                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                        <InfoOutlinedIcon sx={{ color: 'primary.main', mr: 2 }} />
+                                        <Typography
+                                            variant={'body2'}
+                                            color={'primary'}
+                                        >
+                                            Download this file to calculate the energy savings and greenhouse gas emissions reduction that can come with a renovation of your heating system.
+                                        </Typography>
+                                    </Box>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        startIcon={<DownloadIcon />}
+                                        href="/Replacement of Thermal Energy Equipment.xlsx" // Path to the file in the public folder
+                                        download
+                                        sx={{
+                                            backgroundColor: '#9966ff',
+                                            borderColor: '#9966ff',
+                                            color: 'white',
+                                        }}
+                                    >
+                                        Download
+                                    </Button>
+                                </Card>
+                            </Grid>
                         </Grid>
                     </>
                 )}
