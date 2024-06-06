@@ -252,14 +252,14 @@ export default function Layout({ children }) {
                     </List>
                     <Divider />
                 </Drawer>
-                <Box component="main" sx={{ flexGrow: 1, background: '#fafafa' }}>
+                <Box component="main" sx={{ flexGrow: 1, flex: 1 }}>
                     <Main open={open}>
                         <DrawerHeader />
                         {children}
                     </Main>
                 </Box>
             </Box>
-            <Footer sx={{ position: 'sticky', mt: 'auto' }} open={open}><FooterContent /></Footer>
+            <Footer open={open} sx={{ position: 'sticky', mt: 'auto', mb: '-25px' }}><FooterContent /></Footer>
         </>
     );
 }

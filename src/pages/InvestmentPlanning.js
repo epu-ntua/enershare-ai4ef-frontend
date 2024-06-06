@@ -561,12 +561,14 @@ function InvestmentPlanning() {
                                                             color={'primary'}
                                                             textAlign="center"
                                                         >
-                                                            Download this file to calculate the energy savings and greenhouse gas emissions reduction that can come with a renovation of your heating system.
+                                                            Download this file to calculate the energy savings and
+                                                            greenhouse gas emissions reduction that can come with a
+                                                            renovation of your heating system.
                                                         </Typography>
                                                         <Button
                                                             variant="contained"
                                                             color="primary"
-                                                            startIcon={<DownloadIcon />}
+                                                            startIcon={<DownloadIcon/>}
                                                             href="/Replacement of Thermal Energy Equipment.xlsx" // Path to the file in the public folder
                                                             download
                                                             sx={{
@@ -580,7 +582,6 @@ function InvestmentPlanning() {
                                                         </Button>
                                                     </Box>
                                                 )}
-
                                             </Card>
                                         </Grid>
                                     )
