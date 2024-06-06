@@ -206,7 +206,7 @@ export default function Layout({ children }) {
                 <Drawer
                     sx={{
                         width: drawerWidth,
-                        background: '#fafafa',
+                        // background: '#fafafa',
                         flexShrink: 0,
                         '& .MuiDrawer-paper': {
                             width: drawerWidth,
