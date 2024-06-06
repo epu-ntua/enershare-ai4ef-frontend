@@ -6,3 +6,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3002:3000"
+    networks:
+      - nginx-proxy-manager_enershare_network
+
+
+networks:
+  nginx-proxy-manager_enershare_network:
+    external: true
+
+
+
