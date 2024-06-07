@@ -3,14 +3,14 @@ import Keycloak from "keycloak-js";
 // local configuration
 // const my_keycloak = new Keycloak({
 //     "realm": "enershare",
-//     "url": "http://enershare.epu.ntua.gr:8080/auth", // Adjusted URL
+//     "url": "https://keycloak.enershare1.epu.ntua.gr",
 //     "clientId": "leif_service_local"
 // })
 
 // NTUA deployment configuration
 const my_keycloak = new Keycloak({
     "realm": "enershare",
-    "url": "http://enershare.epu.ntua.gr:8080/auth",
+    "url": "https://keycloak.enershare1.epu.ntua.gr",
     "clientId": "leif_service_ntua"
 })
 
