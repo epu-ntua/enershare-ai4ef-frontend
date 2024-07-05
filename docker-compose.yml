@@ -8,11 +8,8 @@ services:
       - "3002:3000"
     networks:
       - nginx-proxy-manager_enershare_network
-
+    restart: always
 
 networks:
   nginx-proxy-manager_enershare_network:
     external: true
-
-
-
