@@ -10,7 +10,7 @@ import Keycloak from "keycloak-js";
 // NTUA deployment configuration
 const my_keycloak = new Keycloak({
     "realm": "enershare",
-    "url": "https://idp.haslab-dataspace.p",
+    "url": "https://idp.haslab-dataspace.pt",
     "clientId": "leif_service_ntua"
 })
 
