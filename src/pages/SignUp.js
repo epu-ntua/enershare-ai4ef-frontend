@@ -19,47 +19,52 @@ export default function SignUp() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [formErrors, setFormErrors] = useState({});
+    const [submitted, setSubmitted] = useState(false);
 
-    const validateForm = () => {
+    const validateForm = (fields = {}) => {
         const errors = {};
 
-        if (!firstName) {
+        if (!fields.firstName && !firstName) {
             errors.firstName = 'First Name is required';
         }
 
-        if (!lastName) {
+        if (!fields.lastName && !lastName) {
             errors.lastName = 'Last Name is required';
         }
 
-        if (!username) {
+        if (!fields.username && !username) {
             errors.username = 'Username is required';
         }
 
-        if (!email) {
+        if (!fields.email && !email) {
             errors.email = 'Email Address is required';
-        } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+        } else if (fields.email && !/^\S+@\S+\.\S+$/.test(fields.email)) {
             errors.email = 'Invalid email address';
         }
 
-        if (!password) {
+        if (!fields.password && !password) {
             errors.password = 'Password is required';
         }
 
-        setFormErrors(errors);
+        return errors;
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        validateForm();
+        setSubmitted(true);
 
-        // If there are no errors, submit the form
-        if (Object.keys(formErrors).length === 0) {
+        const errors = validateForm({ firstName, lastName, username, email, password });
+        setFormErrors(errors);
+
+        if (Object.keys(errors).length === 0) {
             console.log('Submitting form:', { firstName, lastName, username, email, password });
         }
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        const newState = { [name]: value };
+
         switch (name) {
             case 'firstName':
                 setFirstName(value);
@@ -79,21 +84,24 @@ export default function SignUp() {
             default:
                 break;
         }
-        validateForm();
+
+        if (submitted) {
+            const errors = validateForm(newState);
+            setFormErrors(errors);
+        }
     };
 
-    const [allowed, setAllowed] = useState(false)
-    const [checkFinished, setCheckFinished] = useState(false)
+    const [allowed, setAllowed] = useState(false);
+    const [checkFinished, setCheckFinished] = useState(false);
 
     useEffect(() => {
         if (initialized) {
             if (!keycloak.authenticated) {
                 setAllowed(true);
             }
-            setCheckFinished(true)
+            setCheckFinished(true);
         }
     }, [initialized]);
-
 
     return (
         <Container component="main" maxWidth="xs">
@@ -107,13 +115,13 @@ export default function SignUp() {
                     alignItems: 'center',
                 }}
             >
-                <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
-                    <LockOutlinedIcon/>
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 3}}>
+                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -126,8 +134,8 @@ export default function SignUp() {
                                 autoFocus
                                 value={firstName}
                                 onChange={handleInputChange}
-                                error={!!formErrors.firstName}
-                                helperText={formErrors.firstName}
+                                error={submitted && !!formErrors.firstName}
+                                helperText={submitted && formErrors.firstName}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -140,8 +148,8 @@ export default function SignUp() {
                                 autoComplete="family-name"
                                 value={lastName}
                                 onChange={handleInputChange}
-                                error={!!formErrors.lastName}
-                                helperText={formErrors.lastName}
+                                error={submitted && !!formErrors.lastName}
+                                helperText={submitted && formErrors.lastName}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -154,8 +162,8 @@ export default function SignUp() {
                                 autoComplete="username"
                                 value={username}
                                 onChange={handleInputChange}
-                                error={!!formErrors.username}
-                                helperText={formErrors.username}
+                                error={submitted && !!formErrors.username}
+                                helperText={submitted && formErrors.username}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -168,8 +176,8 @@ export default function SignUp() {
                                 autoComplete="email"
                                 value={email}
                                 onChange={handleInputChange}
-                                error={!!formErrors.email}
-                                helperText={formErrors.email}
+                                error={submitted && !!formErrors.email}
+                                helperText={submitted && formErrors.email}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -183,8 +191,8 @@ export default function SignUp() {
                                 autoComplete="new-password"
                                 value={password}
                                 onChange={handleInputChange}
-                                error={!!formErrors.password}
-                                helperText={formErrors.password}
+                                error={submitted && !!formErrors.password}
+                                helperText={submitted && formErrors.password}
                             />
                         </Grid>
                     </Grid>
@@ -192,7 +200,7 @@ export default function SignUp() {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{mt: 3, mb: 2}}
+                        sx={{ mt: 3, mb: 2 }}
                     >
                         Sign Up
                     </Button>
