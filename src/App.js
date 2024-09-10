@@ -16,7 +16,7 @@ import SignUp from "./pages/SignUp";
 import UserProfile from "./pages/UserProfile";
 
 // Set axios default base url
-axios.defaults.baseURL = 'http://enershare.epu.ntua.gr:8888/';
+axios.defaults.baseURL = 'http://enershare1.epu.ntua.gr:8888/';
 
 // Set primary color here
 let green_primary = '#18e5b0';

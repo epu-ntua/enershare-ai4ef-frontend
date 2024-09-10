@@ -72,8 +72,8 @@ function InvestmentPlanning() {
 
     const initialFormState = {
         building_total_area: '',
-        underground_floor: '',
-        reference_area: '',
+        // underground_floor: '',
+        // reference_area: '',
         energy_consumption_before: '',
         above_ground_floors: '',
         initial_energy_class: '',
@@ -82,8 +82,8 @@ function InvestmentPlanning() {
 
     const initialFormErrors = {
         building_total_area: false,
-        underground_floor: false,
-        reference_area: false,
+        // underground_floor: false,
+        // reference_area: false,
         energy_consumption_before: false,
         above_ground_floors: false,
         initial_energy_class: false,
@@ -232,8 +232,9 @@ function InvestmentPlanning() {
                     </AccordionSummary>
 
                     <AccordionDetails>
-                        <Grid container spacing={2}>
-                            {/* First Row */}
+                        <Grid container spacing={2} sx={{
+                            alignItems: "center",
+                        }}>
                             <Grid item xs={12} sm={4}>
                                 <TextField
                                     name="building_total_area"
@@ -254,50 +255,49 @@ function InvestmentPlanning() {
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <FormControl fullWidth required>
-                                    <InputLabel error={formErrors.underground_floor}>Underground Floor</InputLabel>
-                                    <Select
-                                        name="underground_floor"
-                                        label="Underground Floor"
-                                        value={formData.underground_floor}
-                                        onChange={handleFormChange}
-                                        required
-                                        error={formErrors.underground_floor}
+                            {/*<Grid item xs={12} sm={4}>*/}
+                            {/*    <FormControl fullWidth required>*/}
+                            {/*        <InputLabel error={formErrors.underground_floor}>Underground Floor</InputLabel>*/}
+                            {/*        <Select*/}
+                            {/*            name="underground_floor"*/}
+                            {/*            label="Underground Floor"*/}
+                            {/*            value={formData.underground_floor}*/}
+                            {/*            onChange={handleFormChange}*/}
+                            {/*            required*/}
+                            {/*            error={formErrors.underground_floor}*/}
 
-                                    >
-                                        <MenuItem value={1}>Yes</MenuItem>
-                                        <MenuItem value={0}>No</MenuItem>
-                                    </Select>
-                                    {formErrors.underground_floor && (
-                                        <Typography variant="caption" color="error" sx={{ml: 2, mt: '2px'}}>
-                                            This field is required
-                                        </Typography>
-                                    )}
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    name="reference_area"
-                                    label="Reference Area (m²)"
-                                    fullWidth
-                                    value={formData.reference_area}
-                                    onChange={handleFormChange}
-                                    required
-                                    error={formErrors.reference_area}
-                                    helperText={
-                                        formErrors.reference_area &&
-                                        'This field is required'
-                                    }
-                                    type="number"
-                                    inputProps={{
-                                        inputMode: 'numeric',
-                                        min: 0,
-                                    }}
-                                />
-                            </Grid>
+                            {/*        >*/}
+                            {/*            <MenuItem value={1}>Yes</MenuItem>*/}
+                            {/*            <MenuItem value={0}>No</MenuItem>*/}
+                            {/*        </Select>*/}
+                            {/*        {formErrors.underground_floor && (*/}
+                            {/*            <Typography variant="caption" color="error" sx={{ml: 2, mt: '2px'}}>*/}
+                            {/*                This field is required*/}
+                            {/*            </Typography>*/}
+                            {/*        )}*/}
+                            {/*    </FormControl>*/}
+                            {/*</Grid>*/}
+                            {/*<Grid item xs={12} sm={4}>*/}
+                            {/*    <TextField*/}
+                            {/*        name="reference_area"*/}
+                            {/*        label="Reference Area (m²)"*/}
+                            {/*        fullWidth*/}
+                            {/*        value={formData.reference_area}*/}
+                            {/*        onChange={handleFormChange}*/}
+                            {/*        required*/}
+                            {/*        error={formErrors.reference_area}*/}
+                            {/*        helperText={*/}
+                            {/*            formErrors.reference_area &&*/}
+                            {/*            'This field is required'*/}
+                            {/*        }*/}
+                            {/*        type="number"*/}
+                            {/*        inputProps={{*/}
+                            {/*            inputMode: 'numeric',*/}
+                            {/*            min: 0,*/}
+                            {/*        }}*/}
+                            {/*    />*/}
+                            {/*</Grid>*/}
 
-                            {/* Second Row */}
                             <Grid item xs={12} sm={4}>
                                 <TextField
                                     name="energy_consumption_before"
@@ -318,6 +318,7 @@ function InvestmentPlanning() {
                                     }}
                                 />
                             </Grid>
+
                             <Grid item xs={12} sm={4}>
                                 <FormControl fullWidth required>
                                     <InputLabel error={formErrors.above_ground_floors}>Above-ground Floors</InputLabel>
@@ -340,7 +341,8 @@ function InvestmentPlanning() {
                                     )}
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} sm={2}>
+
+                            <Grid item xs={12} sm={4}>
                                 <FormControl fullWidth required>
                                     <InputLabel error={formErrors.initial_energy_class}>Initial Energy
                                         Class</InputLabel>
@@ -367,7 +369,8 @@ function InvestmentPlanning() {
                                     )}
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} sm={2}>
+
+                            <Grid item xs={12} sm={4} justifyContent="flex-end">
                                 <FormControl fullWidth required>
                                     <InputLabel error={formErrors.energy_class_after}>Energy Class After</InputLabel>
                                     <Select
@@ -394,6 +397,7 @@ function InvestmentPlanning() {
                                 </FormControl>
                             </Grid>
                         </Grid>
+
                         <Grid container justifyContent="flex-end" alignItems="center" mt={3} mb={1}>
                             <Typography variant={'h6'}
                                         sx={{
