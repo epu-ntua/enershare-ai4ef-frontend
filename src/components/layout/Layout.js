@@ -256,7 +256,7 @@ export default function Layout({children}) {
 
                     {keycloak.authenticated === true && <>
                         <List>
-                            <a href="http://enershare1.epu.ntua.gr:8890/overview/activity/assets"
+                            <a href="https://train-app.ai4ef.enershare1.epu.ntua.gr/overview/activity/timeline"
                                style={{
                                    textDecoration: 'none',
                                    color: '#000',
