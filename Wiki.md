@@ -21,7 +21,7 @@ A more detailed description follows.
 ## Sign-Up page
 
 The Sign Up page requires users to input their **First Name**, **Last Name**, **Username**, **Email Address**, and **Password**. 
-Once all required fields are filled in, users can click the **SIGN UP** button to create their account.
+Once all required fields are filled in, users can click the **SIGN UP** button to create their account.  
 
 ![img_2.png](img_2.png)
 
@@ -30,12 +30,14 @@ Once all required fields are filled in, users can click the **SIGN UP** button t
 This front-end application is fully integrated with **EnerShare's Security Framework**, which is based on **Keycloak**,
 an open-source identity and access management solution. Thus, upon trying to access the platform without being
 logged-in, it automatically navigates the users to the common sign-in page (as illustrated below) created for the needs
-of the project.
+of the project.  
+
 ![img_1.png](img_1.png)
 
 ## Homepage
 
-The Homepage displays the main capabilities of the dashboard in head titles, as illustrated below:
+The Homepage displays the main capabilities of the dashboard in head titles, as illustrated below:  
+
 ![img.png](img.png)
 
 ## Investment Planning
