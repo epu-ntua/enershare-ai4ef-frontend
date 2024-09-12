@@ -29,7 +29,7 @@ Once all required fields are filled in, users can click the **SIGN UP** button t
 
 This front-end application is fully integrated with **EnerShare's Security Framework**, which is based on **Keycloak**,
 an open-source identity and access management solution. Thus, upon trying to access the platform without being
-logged-in, it automatically navigates the users to the common sign-in page (as illustrated below) created for the needs
+logged-in (except from the Homepage and the Sign Up page), it automatically navigates the users to the common sign-in page (as illustrated below) created for the needs
 of the project.  
 
 ![img_1.png](img_1.png)
