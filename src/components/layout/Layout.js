@@ -27,13 +27,14 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ModelTrainingIcon from '@mui/icons-material/ModelTraining';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 
 import FooterContent from "./FooterContent";
 import MenuButton from "./MenuButton";
 
 import {appbarMenuButtonItems} from "../../appbarMenuButtonItems";
 
-const drawerWidth = 240;
+const drawerWidth = 270;
 
 const DrawerHeader = styled('div')(({theme}) => ({
     display: 'flex',
@@ -274,6 +275,32 @@ export default function Layout({children}) {
                                             <ModelTrainingIcon sx={{color: theme.palette.primary.main}}/>
                                         </ListItemIcon>
                                         <ListItemText primary="Training Playground"/>
+                                    </ListItemButton>
+                                </ListItem>
+                            </a>
+                        </List>
+
+                        <Divider/>
+
+                        <List>
+                            <a href="https://enershare.zapto.org:4173/"
+                               style={{
+                                   textDecoration: 'none',
+                                   color: '#000',
+                                   width: '100%'
+                               }}
+                               target="_blank"
+                               rel="noopener noreferrer"
+                            >
+                                <ListItem disablePadding
+                                          sx={{
+                                              borderRadius: '10px', marginX: 1, width: '95%'
+                                          }}>
+                                    <ListItemButton>
+                                        <ListItemIcon className={'menuIcon'}>
+                                            <StorefrontIcon sx={{color: theme.palette.primary.main}}/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Data Marketplace"/>
                                     </ListItemButton>
                                 </ListItem>
                             </a>
