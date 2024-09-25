@@ -1,4 +1,4 @@
-# I-NERGY UC7 Front-End
+# EnerShare AI4EF Front-End
 
 This is the front-end for **EnerShare AI4EF**, created with [Create React App](https://github.com/facebook/create-react-app)..
 
