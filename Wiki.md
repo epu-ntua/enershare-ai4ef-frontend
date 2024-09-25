@@ -20,8 +20,9 @@ A more detailed description follows.
 
 ## Sign-Up page
 
-The Sign Up page requires users to input their **First Name**, **Last Name**, **Username**, **Email Address**, and **Password**. 
-Once all required fields are filled in, users can click the **SIGN UP** button to create their account.  
+The Sign Up page requires users to input their **First Name**, **Last Name**, **Username**, **Email Address**, and *
+*Password**.
+Once all required fields are filled in, users can click the **SIGN UP** button to create their account.
 
 ![img_2.png](img_2.png)
 
@@ -29,14 +30,15 @@ Once all required fields are filled in, users can click the **SIGN UP** button t
 
 This front-end application is fully integrated with **EnerShare's Security Framework**, which is based on **Keycloak**,
 an open-source identity and access management solution. Thus, upon trying to access the platform without being
-logged-in (except from the Homepage and the Sign Up page), it automatically navigates the users to the common sign-in page (as illustrated below) created for the needs
-of the project.  
+logged-in (except from the Homepage and the Sign Up page), it automatically navigates the users to the common sign-in
+page (as illustrated below) created for the needs
+of the project.
 
 ![img_1.png](img_1.png)
 
 ## Homepage
 
-The Homepage displays the main capabilities of the dashboard in head titles, as illustrated below:  
+The Homepage displays the main capabilities of the dashboard in head titles, as illustrated below:
 
 ![img.png](img.png)
 
@@ -93,7 +95,7 @@ costs, and CO₂ reductions. The **RESET** button allows the user to clear the i
 
 ## Training Playground
 
-The corresponding menu button is an external link for the AI4EF Dagster instance. AI4EF Training Playground is designed
+The **"Training Playground"** menu button is an external link for the AI4EF Dagster instance. AI4EF Training Playground is designed
 specifically for users, such as data scientists, seeking an intuitive user interface to orchestrate and execute their
 machine learning pipelines. This service includes a default pipeline for creating models suitable for integration with
 the AI4EF model-app. It enables data scientists to build and refine custom models tailored to specific use cases,
@@ -101,6 +103,20 @@ ensuring seamless integration with the model-app to deliver reliable forecasts f
 access the Dagster UI and choose their preferred run, configuring the parameters of their pipeline through the built-in
 launchpad menu.
 
+## Data Marketplace
+
+The **"Data Marketplace"** menu button is an external link for the AI4EF Data Marketplace instance. The AI4EF Data-App is
+designed specifically for users seeking seamless access to the Data Marketplace, enabling efficient sharing and
+acquisition of various data artifacts within the AI4EF ecosystem. This sub-service simplifies the process by allowing
+users to enter the marketplace with just a single click, facilitating a collaborative environment where data exchange is
+streamlined. Once inside, users can browse, obtain, and manage their data artifacts, enhancing their data-driven
+projects by leveraging the extensive resources available in the marketplace. More details are available at Section
+4.5.1.3.
+
 # Other
-For deployment instructions, please refer to the [README.md](https://gitlab.epu.ntua.gr/enershare/leif_uc_dashboard/-/blob/main/README.md?ref_type=heads) file of the project.  
+
+For deployment instructions, please refer to
+the [README.md](https://gitlab.epu.ntua.gr/enershare/leif_uc_dashboard/-/blob/main/README.md?ref_type=heads) file of the
+project.  
 For any other inquiries, please contact: [enershare@epu.ntua.gr](mailto:enershare@epu.ntua.gr).
+
